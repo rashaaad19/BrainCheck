@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="../css/landing-page.css">
+
+</head>
+
+<body>
+
+    <div class="page-container">
+
+        <!-- start nav-bar section -->
+        <div class="nav-section">
+            <div class="navbar ">
+                <div class="flex-1 logo-system">
+                    <!-- <a class="sss btn btn-ghost text-white text-xl hover:bg-transparent hover:text-white">Exam System</a> -->
+                    <a
+                        class="btn text-white text-xl bg-transparent border-none hover:bg-transparent hover:border-none active:bg-transparent focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6l4 2M4 6h16M4 10h16M4 14h16M4 18h16" />
+                        </svg>
+                        Exam System
+                    </a>
+
+                </div>
+                <!-- <span class="burger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span> -->
+                <div class="flex-none nav-list">
+                    <ul class="menu menu-horizontal gap-x-2 text-xl lg:gap-x-6">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Profile</a></li>
+                        <li><a href="#">Courses</a></li>
+                        <li><a href="#">Log In</a></li>
+                        <li><a href="#">Sign Up</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- end nav-bar section -->
+
+        <!-- blue-side-img  -->
+        <div class="side-image">
+            <img src="../images/hero-bg.png" alt="">
+        </div>
+
+        <!-- start main side section with text and image -->
+        <div class="main-section">
+            <div class="left-info-card">
+                <h1>Welcome to Our <span>Exam System</span></h1>
+                <p>Get ready to test your knowledge! We offer exams in a variety of courses — choose your subject and
+                    start practicing now.</p>
+                <!-- start button for login -->
+                <div class="button-card mt-6 login-button-card">
+                    <a href="#" class="btn text-white text-lg px-8 gap-2" style="background-color: #ffb700;">
+                        Login
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- end button for login -->
+            </div>
+            <div class="right-img-card">
+                <img src="../images/woman-reading-book-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--girl-education-pack-classroom-illustrations-6706855.webp"
+                    alt="">
+            </div>
+        </div>
+        <!-- end main side section with text and image -->
+
+
+    </div>
+
+    <script src="../scripts/landing-page.js"></script>
+</body>
+
+</html>
