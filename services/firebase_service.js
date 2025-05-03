@@ -1,4 +1,4 @@
-import { auth, createUserWithEmailAndPassword, db, collection, doc, setDoc, updateProfile, provider,signInWithPopup } from "../firebase.js";
+import { auth, createUserWithEmailAndPassword, db, collection, doc, setDoc, updateProfile, provider, signInWithPopup, getDoc } from "../firebase.js";
 export const userSignup = async (email, password, userName) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -17,23 +17,35 @@ export const userSignup = async (email, password, userName) => {
 
 
 export const createUser = async (userData) => {
+    console.log(userData)
     try {
         const docRef = doc(db, "users", userData.uid);
-        await setDoc(docRef, {
+        const data = await setDoc(docRef, {
             email: userData.email,
-            displayName:userData.displayName
+            displayName: userData.displayName
         });
+        return data;
     } catch (e) {
         console.error("Error adding document: ", e);
     }
 }
 
-export const createWithGoogle=async ()=>{
-try{
-    const userCredential =await signInWithPopup(auth, provider);
-    console.log(userCredential);
+export const checkUserDoc = async (user) => {
+    const userDocRef = doc(db, 'users', user.uid);
+    const userDoc = await getDoc(userDocRef);
+    const docExist = userDoc.exists();
+    return docExist
+
 }
-catch(e){
-    console.log(e)
-}
+export const createWithGoogle = async () => {
+    try {
+        const userCredential = await signInWithPopup(auth, provider);
+        const user = userCredential.user;
+        return user;
+
+
+    }
+    catch (e) {
+        console.log(e)
+    }
 }
