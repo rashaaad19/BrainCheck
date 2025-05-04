@@ -1,4 +1,5 @@
-import { checkUserDoc, createUser, createWithGoogle, userSignup } from './../services/firebase_service.js';
+import { checkUserDoc, createUser } from '../services/firestore_service.js';
+import {  createWithGoogle, userSignup } from './../services/auth_service.js';
 
 const form = document.getElementsByTagName('form')[0];
 const password = document.getElementById('password');
@@ -8,7 +9,7 @@ const googleButton = document.getElementById('googleAuth');
 //custom validation to check passwords matching
 confirmPassword.addEventListener('input', (event) => {
     if (password.value !== confirmPassword.value) {
-        confirmPassword.setCustomValidity('invalid');
+        confirmPassword.setCustomValidity('Enter correct password');
     }
     else {
         confirmPassword.setCustomValidity('');

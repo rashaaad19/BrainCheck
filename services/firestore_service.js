@@ -1,4 +1,29 @@
-import { collection, db, doc, setDoc } from "../firebase.js"
+import { collection, db, doc, getDoc, setDoc } from "../firebase.js"
+
+
+
+export const createUser = async (userData) => {
+    console.log(userData)
+    try {
+        const docRef = doc(db, "users", userData.uid);
+        const data = await setDoc(docRef, {
+            email: userData.email,
+            displayName: userData.displayName
+        });
+        return data;
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+}
+
+export const checkUserDoc = async (user) => {
+    const userDocRef = doc(db, 'users', user.uid);
+    const userDoc = await getDoc(userDocRef);
+    const docExist = userDoc.exists();
+    return docExist
+
+}
+
 
 export const createExamCollection = async (exams) => {
     console.log('called')
