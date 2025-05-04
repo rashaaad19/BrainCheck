@@ -1,0 +1,142 @@
+[
+    {
+      "id": "PHYSED100_Q1",
+      "examId": "PHYSED100",
+      "questionText": "Which of the following is considered a component of health-related fitness?",
+      "options": {
+        "a": "Cardiovascular endurance",
+        "b": "Balance",
+        "c": "Reaction time",
+        "d": "Power"
+      },
+      "correctAnswer": "Cardiovascular endurance",
+      "difficulty": "easy",
+      "points": 1
+    },
+    {
+      "id": "PHYSED100_Q2",
+      "examId": "PHYSED100",
+      "questionText": "What is the recommended minimum amount of moderate-intensity aerobic activity per week for adults?",
+      "options": {
+        "a": "30 minutes",
+        "b": "75 minutes",
+        "c": "150 minutes",
+        "d": "300 minutes"
+      },
+      "correctAnswer": "150 minutes",
+      "difficulty": "easy",
+      "points": 1
+    },
+    {
+      "id": "PHYSED100_Q3",
+      "examId": "PHYSED100",
+      "questionText": "Which nutrient is the body's primary source of energy?",
+      "options": {
+        "a": "Proteins",
+        "b": "Fats",
+        "c": "Carbohydrates",
+        "d": "Vitamins"
+      },
+      "correctAnswer": "Carbohydrates",
+      "difficulty": "medium",
+      "points": 2
+    },
+    {
+      "id": "PHYSED100_Q4",
+      "examId": "PHYSED100",
+      "questionText": "What does BMI (Body Mass Index) measure?",
+      "options": {
+        "a": "Body fat percentage",
+        "b": "Ratio of weight to height squared",
+        "c": "Muscle mass",
+        "d": "Bone density"
+      },
+      "correctAnswer": "Ratio of weight to height squared",
+      "difficulty": "medium",
+      "points": 2
+    },
+    {
+      "id": "PHYSED100_Q5",
+      "examId": "PHYSED100",
+      "questionText": "Which of the following is a benefit of regular physical activity?",
+      "options": {
+        "a": "Increased risk of chronic diseases",
+        "b": "Improved sleep quality",
+        "c": "Decreased bone density",
+        "d": "Higher blood pressure"
+      },
+      "correctAnswer": "Improved sleep quality",
+      "difficulty": "medium",
+      "points": 2
+    },
+    {
+      "id": "PHYSED100_Q6",
+      "examId": "PHYSED100",
+      "questionText": "What is the purpose of a warm-up before exercise?",
+      "options": {
+        "a": "To burn extra calories",
+        "b": "To gradually increase heart rate and prepare muscles",
+        "c": "To replace stretching",
+        "d": "To cool down the body"
+      },
+      "correctAnswer": "To gradually increase heart rate and prepare muscles",
+      "difficulty": "easy",
+      "points": 1
+    },
+    {
+      "id": "PHYSED100_Q7",
+      "examId": "PHYSED100",
+      "questionText": "Which type of stretching is most appropriate before a workout?",
+      "options": {
+        "a": "Static stretching",
+        "b": "Dynamic stretching",
+        "c": "Ballistic stretching",
+        "d": "PNF stretching"
+      },
+      "correctAnswer": "Dynamic stretching",
+      "difficulty": "hard",
+      "points": 3
+    },
+    {
+      "id": "PHYSED100_Q8",
+      "examId": "PHYSED100",
+      "questionText": "What does the FITT principle stand for in exercise programming?",
+      "options": {
+        "a": "Frequency, Intensity, Time, Type",
+        "b": "Flexibility, Interval, Training, Technique",
+        "c": "Fast, Intense, Total, Training",
+        "d": "Fat-burning, Interval, Time, Target"
+      },
+      "correctAnswer": "Frequency, Intensity, Time, Type",
+      "difficulty": "hard",
+      "points": 3
+    },
+    {
+      "id": "PHYSED100_Q9",
+      "examId": "PHYSED100",
+      "questionText": "Which of the following is NOT considered a component of wellness?",
+      "options": {
+        "a": "Physical health",
+        "b": "Financial status",
+        "c": "Social connections",
+        "d": "Environmental quality"
+      },
+      "correctAnswer": "Financial status",
+      "difficulty": "hard",
+      "points": 3
+    },
+    {
+      "id": "PHYSED100_Q10",
+      "examId": "PHYSED100",
+      "questionText": "What is the recommended daily water intake for average adults?",
+      "options": {
+        "a": "1-2 cups",
+        "b": "4-6 cups",
+        "c": "8-10 cups",
+        "d": "12-15 cups"
+      },
+      "correctAnswer": "8-10 cups",
+      "difficulty": "medium",
+      "points": 2
+    }
+  ]
