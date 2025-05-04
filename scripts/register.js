@@ -52,7 +52,7 @@ googleButton.addEventListener('click', async () => {
     }
     catch (e) {
         console.log(e)
-    }
+    }       
 
 })
 
