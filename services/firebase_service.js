@@ -43,7 +43,7 @@ export const createWithGoogle = async () => {
         const user = userCredential.user;
         return user;
 
-
+            
     }
     catch (e) {
         console.log(e)
