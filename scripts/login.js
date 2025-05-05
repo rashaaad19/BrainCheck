@@ -6,7 +6,7 @@ const passwordInput = document.getElementById('password');
 const googleButton = document.getElementById("googleAuth");
 
 // fix custom validity glitch
-passwordInput.addEventListener('focusout',()=>{
+passwordInput.addEventListener('input',()=>{
   passwordInput.setCustomValidity('');
 })
 

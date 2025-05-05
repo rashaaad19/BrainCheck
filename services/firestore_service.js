@@ -41,10 +41,10 @@ export const createExamCollection = async (exams) => {
 }
 
 
-export const createQuestionCollection = async (questions) => {
+export const createQuestionCollection = async (questions, subjectID) => {
 
     //create reference to the subject in firestore with it's id
-    const subjectRef = doc(db, 'exams', 'PHYSED100');
+    const subjectRef = doc(db, 'exams', subjectID);
     //create reference to the questions collection that has the exam
     const examRef = collection(subjectRef, 'questions');
 
@@ -65,3 +65,4 @@ export const createQuestionCollection = async (questions) => {
     })
 
 }
+

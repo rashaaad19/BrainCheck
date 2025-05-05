@@ -1,4 +1,4 @@
-import { auth, createUserWithEmailAndPassword, db, collection, doc, setDoc, updateProfile, provider, signInWithPopup, getDoc, signInWithEmailAndPassword } from "../firebase.js";
+import { auth, createUserWithEmailAndPassword, db, collection, doc, setDoc, updateProfile, provider, signInWithPopup, getDoc, signInWithEmailAndPassword, onAuthStateChanged } from "../firebase.js";
 export const userSignup = async (email, password, userName) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -43,3 +43,17 @@ export const createWithGoogle = async () => {
         console.log(e)
     }
 }
+
+//watch for auth changes, and returns a promise that resolve to the user id
+export const getCurrentUserId = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            unsubscribe(); // Stop listening after the first response
+            if (user) {
+                resolve(user.uid);
+            } else {
+                reject("No user signed in");
+            }
+        });
+    });
+};
