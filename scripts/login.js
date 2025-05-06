@@ -1,44 +1,60 @@
-import { auth, signInWithEmailAndPassword } from "../firebase.js";
-import { checkUserDoc, createWithGoogle } from "../services/firebase_service.js";
+import { createWithGoogle, userLogin } from "../services/auth_service.js";
+import { checkUserDoc, createUser } from "../services/firestore_service.js";
 
-const form = document.getElementById('loginForm');
-const googleButton = document.getElementById('googleAuth');
+const form = document.getElementById("loginForm");
+const passwordInput = document.getElementById('password');
+const googleButton = document.getElementById("googleAuth");
 
-form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.target);
-    const userEmail = data.get('email');
-    const userPassword = data.get('password');
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, userEmail, userPassword)
-        const user = userCredential.user;
-        location.replace('/pages/home.html')
-    }
-    catch (e) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-    }
+// fix custom validity glitch
+passwordInput.addEventListener('input',()=>{
+  passwordInput.setCustomValidity('');
 })
 
 
-googleButton.addEventListener('click', async () => {
-    try {
-        const userCredential = await createWithGoogle();
-        const existingStatus = await checkUserDoc(userCredential);
-        if (existingStatus === false) {
-            const userDoc = await createUser(userCredential);
-            console.log('Doc Saved!', userDoc)
-            location.replace('/pages/home.html')
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  passwordInput.setCustomValidity('');
+  const data = new FormData(event.target);
+  const userEmail = data.get("email");
+  const userPassword = data.get("password");
 
-        }
-        if (existingStatus === true) {
-            console.log('User Already exists, no need for new docs')
-            location.replace('/pages/home.html')
-        }
+  try {
+    const userCredentials = await userLogin(userEmail, userPassword);
+    console.log(userCredentials);
+    console.log(passwordInput.reportValidity());
+    passwordInput.setCustomValidity('');
+
+
+    location.replace("/pages/home.html");
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log(errorCode)
+    if (errorCode === 'auth/invalid-credential') {
+      passwordInput.setCustomValidity('Enter correct credentials');
 
     }
-    catch (e) {
-        console.log(e)
-    }
+  }
+});
 
-})
+googleButton.addEventListener("click", async () => {
+  console.log("clicked");
+
+  try {
+    const userCredential = await createWithGoogle();
+    const existingStatus = await checkUserDoc(userCredential);
+    console.log("created");
+
+    if (existingStatus === false) {
+      const userDoc = await createUser(userCredential);
+      console.log("Doc Saved!", userDoc);
+      location.replace("/pages/home.html");
+    }
+    if (existingStatus === true) {
+      console.log("User Already exists, no need for new docs");
+      location.replace("/pages/home.html");
+    }
+  } catch (e) {
+    console.log(e);
+  }
+});
