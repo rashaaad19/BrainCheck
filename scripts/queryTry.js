@@ -3,7 +3,7 @@ import { addNewQuestion, getAllSubjectsData, getAllSubjectNames, getAllSubjectQu
 
 
 const userId =  await getCurrentUserId()
-console.log(await getCurrentUserDoc(userId))
+// console.log(await getCurrentUserDoc(userId))
 const question = {
     correctAnswer: 'Third Option',
     difficulty: 'hard',

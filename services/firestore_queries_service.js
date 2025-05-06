@@ -16,6 +16,13 @@ export const getAllSubjectNames = async () => {
     return arrNames;
 }
 
+//return the 
+export const getSubjectById=async(id)=>{
+    const docRef = doc(db, 'exams',id);
+    const querySnapshot = await getDoc(docRef);
+    return querySnapshot.data();
+
+}
 
 //pass the subject id, and returns all questions appear fo this subject
 export const getAllSubjectQuestions = async (id) => {
