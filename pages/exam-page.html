@@ -25,7 +25,7 @@
         <!-- start exam card -->
 
         <!-- exam-main-card -->
-        <div class="exam-main-card" >
+        <div class="exam-main-card">
 
             <!-- time progress bar -->
             <div class="time-progress"><span></span></div>
@@ -44,33 +44,33 @@
                     <p class="question-title">What does the &lt;a&gt; tag in HTML stand for?</p>
 
                     <label>
-                        <input type="radio" name="exam" value="option1">
+                        <input type="radio" name="exam" value="option-0">
                         <span>&lt;a&gt; stands for "alignment" used to align text.</span>
                     </label>
 
                     <!-- <br> -->
                     <label>
-                        <input type="radio" name="exam" value="option2">
+                        <input type="radio" name="exam" value="option-1">
                         <span> &lt;a&gt; is used to insert an image into the page.</span>
                     </label>
                     <!-- <br> -->
 
                     <label>
-                        <input type="radio" name="exam" value="option3">
+                        <input type="radio" name="exam" value="option-2">
                         <span>&lt;a&gt; is used to create a link to another page or website.</span>
                     </label>
                     <!-- <br> -->
 
                     <label>
-                        <input type="radio" name="exam" value="option4">
+                        <input type="radio" name="exam" value="option-3">
                         <span> &lt;a&gt; is a heading tag used for titles.</span>
                     </label>
                     <!-- <br> -->
                     <!-- <br> -->
                     <div class="exam-buttons">
-                        <button>Previous</button>
-                        <button>Mark</button>
-                        <button>Next</button>
+                        <button class="prev">Previous</button>
+                        <button class="mark">Mark</button>
+                        <button class="next">Next</button>
                     </div>
                     <button type="submit">finish</button>
                 </form>
@@ -88,10 +88,17 @@
         </div>
 
 
+        <div id="exam-toast" class="toast toast-bottom hidden">
+            <div class="alert alert-info">
+                <span>Please select an answer before proceeding.</span>
+            </div>
+        </div>
+
+
     </div>
     <!-- end exam card -->
 
-    <script src="../scripts/exam.js"></script>
+    <script type="module" src="/scripts/exam.js"></script>
 </body>
 
 </html>

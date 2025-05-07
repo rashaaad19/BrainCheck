@@ -21,7 +21,7 @@ const subjectButtonHandler = async (id) => {
     // Save the raw data (not the class instance) to localStorage
     localStorage.setItem('selectedSubjectData', JSON.stringify(selectedSubject));
     //navigate to exam page with custom subjectId query
-    window.location.href = `/pages/exam.html?subjectId=${selectedSubject.id}`
+    window.location.href = `/pages/exam-page.html?subjectId=${selectedSubject.id}`
 }
 
 //Dummy UI to test, needs more styling
