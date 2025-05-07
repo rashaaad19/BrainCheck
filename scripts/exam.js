@@ -3,6 +3,7 @@ import { Question } from "../classes/Questions.js";
 import { doc } from "../firebase.js";
 import { getAllSubjectQuestions } from "../services/firestore_queries_service.js";
 
+let userAnswers = [];
 //get subjectId from url
 const subjectId = new URLSearchParams(window.location.search).get('subjectId');
 //get the selected subject from local storage and assign it's details to new Exam instance
@@ -74,12 +75,19 @@ window.addEventListener('load', async () => {
     /* ================ FUNCTIONS FOR EXAM NAVIGATION ================ */
 
     nextButton = document.querySelector(".exam-form .exam-buttons .next");
+    previousButton = document.querySelector(".exam-form .exam-buttons .prev");
 
     nextButton.addEventListener("click", (e) => {
-        e.preventDefault();
+        // e.preventDefault();
+
+        //make previous button enabled again
+        previousButton.classList.remove('disabled-btn');
+        previousButton.disabled = false;
 
         let answerSelected = document.querySelector('.exam-form input[name="exam"]:checked');
         let answerSelectedTextContent = document.querySelector('.exam-form input[name="exam"]:checked + span');
+        console.log(answerSelectedTextContent.textContent)
+        userAnswers.push(answerSelectedTextContent.textContent);
 
         if (!answerSelected) {
             showToast();
@@ -87,16 +95,17 @@ window.addEventListener('load', async () => {
         }
 
         // sessionStorage.setItem(`answer_${currentQuestionIndex}`, answerSelected.value);
-        sessionStorage.setItem(`option-${currentQuestionIndex}`, answerSelectedTextContent.textContent);
+        sessionStorage.setItem(`question-${currentQuestionIndex}`, answerSelected.value);
         // console.log(answerSelectedTextContent.textContent)
-        console.log(currentQuestionIndex);
 
         currentQuestionIndex++;
+        console.log(currentQuestionIndex);
 
         if (currentQuestionIndex < questionsData.length) {
             questionNumber.textContent = `Question ${currentQuestionIndex + 1} of ${questionsData.length}`;
+            //access the next question in the array
             questionTitle.textContent = questionsData[currentQuestionIndex].questionText;
-
+            //access the answers to the next question in the array
             let answerValues = Object.values(questionsData[currentQuestionIndex].options);
             answerTextFromHtml.forEach((item, index) => {
                 item.textContent = answerValues[index];
@@ -106,22 +115,28 @@ window.addEventListener('load', async () => {
             document.querySelectorAll('.exam-form input[name="exam"]').forEach(input => input.checked = false);
 
             // Restore the saved answer for this question
-            let savedAnswer = sessionStorage.getItem(`option-${currentQuestionIndex}`);
 
+            //Search for an answer for the question with this index
+            let savedAnswer = sessionStorage.getItem(`question-${currentQuestionIndex}`);
             if (savedAnswer) {
-                console.log(savedAnswer);
-                document.querySelector(`.exam-form input[name="exam"][value="option-${currentQuestionIndex}"]`).checked = true;
+                //Important
+                // document.querySelector(`.exam-form input[name="exam"][value="option-${currentQuestionIndex}"]`).checked = true;
+                document.querySelector(`.exam-form input[name="exam"][value=${savedAnswer}]`).checked = true;
             }
 
-        } else {
-            nextButton.classList.add("disabled-btn");
-            nextButton.disabled = true;
+
+            if (currentQuestionIndex === 9) {
+                nextButton.classList.add("disabled-btn");
+                nextButton.disabled = true;
+            }
+
+
         }
     });
 
-    previousButton = document.querySelector(".exam-form .exam-buttons .prev");
 
     previousButton.addEventListener("click", (e) => {
+        let answerSelectedTextContent = document.querySelector('.exam-form input[name="exam"]:checked + span');
         e.preventDefault();
 
         nextButton.classList.remove("disabled-btn");
@@ -143,17 +158,22 @@ window.addEventListener('load', async () => {
             document.querySelectorAll('.exam-form input[name="exam"]').forEach(input => input.checked = false);
 
             // Restore the saved answer for this question (if any)
-            let savedAnswer = sessionStorage.getItem(`option-${currentQuestionIndex}`);
-
+            let savedAnswer = sessionStorage.getItem(`question-${currentQuestionIndex}`);
+            console.log(savedAnswer)
+            // console.log(answerSelected)
+            // console.log(answerSelected.value)
             if (savedAnswer) {
                 console.log(savedAnswer);
-                document.querySelector(`.exam-form input[name="exam"][value="option-${currentQuestionIndex}"]`).checked = true;
+                // document.querySelector(`.exam-form input[name="exam"][value="option-${currentQuestionIndex}"]`).checked = true;
+                document.querySelector(`.exam-form input[name="exam"][value=${savedAnswer}]`).checked = true;
+
             }
+            if (currentQuestionIndex === 0) {
+                previousButton.classList.add("disabled-btn");
+                previousButton.disabled = true;
+            }
+
         }
-        // else {
-        //     previousButton.classList.add("disabled-btn");
-        //     previousButton.disabled = true;
-        // }
     });
 });
 
@@ -171,6 +191,11 @@ function showToast() {
 
 
 
+const form = document.querySelector('.exam-form');
+const submitButton = document.querySelector('button[type="submit"]');
 
-
+form.addEventListener("submit",(e)=>{
+    e.preventDefault();
+    console.log(userAnswers)
+})
 
