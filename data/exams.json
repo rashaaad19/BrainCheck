@@ -1,0 +1,74 @@
+{
+    "exams": [
+      {
+        "id": "MATH202",
+        "subjectName": "Advanced Calculus",
+        "description": "Covering multivariable calculus, vector analysis, and partial differential equations",
+        "durationMinutes": 120,
+        "passingGrade": 70
+      },
+      {
+        "id": "PHYS301",
+        "subjectName": "Quantum Mechanics",
+        "description": "Introduction to quantum theory, wave functions, and Schrödinger equation",
+        "durationMinutes": 90,
+        "passingGrade": 65
+      },
+      {
+        "id": "CHEM205",
+        "subjectName": "Organic Chemistry",
+        "description": "Study of structure, properties, and reactions of organic compounds",
+        "durationMinutes": 110,
+        "passingGrade": 60
+      },
+      {
+        "id": "COMP410",
+        "subjectName": "Algorithms and Data Structures",
+        "description": "Advanced analysis of algorithms and efficient data organization",
+        "durationMinutes": 100,
+        "passingGrade": 75
+      },
+      {
+        "id": "BIO101",
+        "subjectName": "Cell Biology",
+        "description": "Fundamentals of cell structure, function, and cellular processes",
+        "durationMinutes": 80,
+        "passingGrade": 60
+      },
+      {
+        "id": "HIST150",
+        "subjectName": "World History",
+        "description": "Survey of major world civilizations from ancient times to present",
+        "durationMinutes": 90,
+        "passingGrade": 55
+      },
+      {
+        "id": "ECON210",
+        "subjectName": "Macroeconomics",
+        "description": "Study of national and global economic systems and policies",
+        "durationMinutes": 85,
+        "passingGrade": 65
+      },
+      {
+        "id": "ENG105",
+        "subjectName": "Creative Writing",
+        "description": "Development of writing skills in various genres including fiction and poetry",
+        "durationMinutes": 75,
+        "passingGrade": 60
+      },
+      {
+        "id": "PHIL220",
+        "subjectName": "Ethics and Moral Philosophy",
+        "description": "Examination of major ethical theories and moral dilemmas",
+        "durationMinutes": 80,
+        "passingGrade": 60
+      },
+      {
+        "id": "PHYSED100",
+        "subjectName": "Health and Wellness",
+        "description": "Principles of physical fitness, nutrition, and healthy lifestyle",
+        "durationMinutes": 60,
+        "passingGrade": 50
+      }
+    ]
+  }

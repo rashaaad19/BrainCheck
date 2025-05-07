@@ -1,6 +1,9 @@
-import { checkUserDoc, createUser, createWithGoogle, userSignup } from './../services/firebase_service.js';
+import { checkUserDoc, createUser } from '../services/firestore_service.js';
+import { createWithGoogle, userSignup } from './../services/auth_service.js';
 
 const form = document.getElementsByTagName('form')[0];
+const email = document.getElementById('email');
+const emailHint = document.getElementById('email-hint')
 const password = document.getElementById('password');
 const confirmPassword = document.getElementById('confirmPassword');
 const googleButton = document.getElementById('googleAuth');
@@ -8,13 +11,18 @@ const googleButton = document.getElementById('googleAuth');
 //custom validation to check passwords matching
 confirmPassword.addEventListener('input', (event) => {
     if (password.value !== confirmPassword.value) {
-        confirmPassword.setCustomValidity('invalid');
+        confirmPassword.setCustomValidity('Enter correct password');
     }
     else {
         confirmPassword.setCustomValidity('');
     }
 });
 
+// fix custom validity glitch
+email.addEventListener('input', () => {
+    email.setCustomValidity('');
+    emailHint.textContent = 'Enter valid email address'
+})
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -28,9 +36,17 @@ form.addEventListener("submit", async (event) => {
         const userDoc = await createUser(userCredential);
         console.log('Doc Saved!', userDoc)
         location.replace('/pages/login.html')
-    } catch (error) {
-        console.error("Signup error:", error);
+    } catch (e) {
+        const errorMessage = e.message;
+        const errorCode = e.code
+        if (errorCode === 'auth/email-already-in-use') {
+            console.log('email already in use error')
+            email.setCustomValidity('Email already in use');
+            emailHint.textContent = 'This Email is already in use'
+        }
+
     }
+
 
 });
 
@@ -51,8 +67,11 @@ googleButton.addEventListener('click', async () => {
 
     }
     catch (e) {
-        console.log(e)
-    }       
+        const errorMessage = e.message;
+        const errorCode = e.code
+        console.log(errorMessage)
+
+    }
 
 })
 

@@ -1,0 +1,142 @@
+[
+  {
+    "id": "COMP410_Q1",
+    "examId": "COMP410",
+    "questionText": "Which of the following data structures follows the Last-In-First-Out (LIFO) principle?",
+    "options": {
+      "a": "Queue",
+      "b": "Stack",
+      "c": "Linked List",
+      "d": "Tree"
+    },
+    "correctAnswer": "Stack",
+    "difficulty": "easy",
+    "points": 1
+  },
+  {
+    "id": "COMP410_Q2",
+    "examId": "COMP410",
+    "questionText": "What is the time complexity of binary search on a sorted array of size n?",
+    "options": {
+      "a": "O(1)",
+      "b": "O(log n)",
+      "c": "O(n)",
+      "d": "O(n log n)"
+    },
+    "correctAnswer": "O(log n)",
+    "difficulty": "easy",
+    "points": 1
+  },
+  {
+    "id": "COMP410_Q3",
+    "examId": "COMP410",
+    "questionText": "Which sorting algorithm has the worst-case time complexity of O(n²) but often performs better than O(n log n) algorithms for small datasets?",
+    "options": {
+      "a": "Merge Sort",
+      "b": "Quick Sort",
+      "c": "Insertion Sort",
+      "d": "Heap Sort"
+    },
+    "correctAnswer": "Insertion Sort",
+    "difficulty": "medium",
+    "points": 2
+  },
+  {
+    "id": "COMP410_Q4",
+    "examId": "COMP410",
+    "questionText": "What is the main advantage of a hash table data structure?",
+    "options": {
+      "a": "Guaranteed sorted order",
+      "b": "Average case O(1) time complexity for search operations",
+      "c": "Efficient for range queries",
+      "d": "Minimal memory usage"
+    },
+    "correctAnswer": "Average case O(1) time complexity for search operations",
+    "difficulty": "medium",
+    "points": 2
+  },
+  {
+    "id": "COMP410_Q5",
+    "examId": "COMP410",
+    "questionText": "Which graph traversal algorithm uses a queue data structure?",
+    "options": {
+      "a": "Depth-First Search",
+      "b": "Breadth-First Search",
+      "c": "Dijkstra's Algorithm",
+      "d": "A* Search"
+    },
+    "correctAnswer": "Breadth-First Search",
+    "difficulty": "medium",
+    "points": 2
+  },
+  {
+    "id": "COMP410_Q6",
+    "examId": "COMP410",
+    "questionText": "What is the space complexity of the merge sort algorithm?",
+    "options": {
+      "a": "O(1)",
+      "b": "O(log n)",
+      "c": "O(n)",
+      "d": "O(n²)"
+    },
+    "correctAnswer": "O(n)",
+    "difficulty": "hard",
+    "points": 3
+  },
+  {
+    "id": "COMP410_Q7",
+    "examId": "COMP410",
+    "questionText": "Which data structure would be most efficient for implementing a priority queue?",
+    "options": {
+      "a": "Array",
+      "b": "Linked List",
+      "c": "Heap",
+      "d": "Hash Table"
+    },
+    "correctAnswer": "Heap",
+    "difficulty": "hard",
+    "points": 3
+  },
+  {
+    "id": "COMP410_Q8",
+    "examId": "COMP410",
+    "questionText": "In dynamic programming, what technique is used to store the results of subproblems to avoid recomputation?",
+    "options": {
+      "a": "Divide and Conquer",
+      "b": "Greedy Method",
+      "c": "Memoization",
+      "d": "Backtracking"
+    },
+    "correctAnswer": "Memoization",
+    "difficulty": "hard",
+    "points": 3
+  },
+  {
+    "id": "COMP410_Q9",
+    "examId": "COMP410",
+    "questionText": "What is the time complexity of Dijkstra's algorithm using a binary heap for a graph with V vertices and E edges?",
+    "options": {
+      "a": "O(V)",
+      "b": "O(V log V)",
+      "c": "O(E + V log V)",
+      "d": "O(E log V)"
+    },
+    "correctAnswer": "O(E log V)",
+    "difficulty": "hard",
+    "points": 3
+  },
+  {
+    "id": "COMP410_Q10",
+    "examId": "COMP410",
+    "questionText": "Which of the following is NOT a characteristic of a good hash function?",
+    "options": {
+      "a": "Uniform distribution of hash values",
+      "b": "Deterministic output for same input",
+      "c": "Fast computation",
+      "d": "Guarantees no collisions"
+    },
+    "correctAnswer": "Guarantees no collisions",
+    "difficulty": "medium",
+    "points": 2
+  }
+]
