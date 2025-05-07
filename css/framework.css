@@ -379,7 +379,9 @@
 .space-between {
     justify-content: space-between;
 }
-
+.space-around{
+    justify-content: space-around;
+}
 .between-flex {
     display: flex;
     justify-content: space-between;
