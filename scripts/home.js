@@ -17,13 +17,13 @@ const subjectClasses = subjects.map(
 );
 
 const subjectButtonHandler = async (id) => {
-  //find the selected class item based on user click
-  const selectedSubject = subjectClasses.find((subject) => subject.id === id);
-  // Save the raw data (not the class instance) to localStorage
-  localStorage.setItem("selectedSubjectData", JSON.stringify(selectedSubject));
-  //navigate to exam page with custom subjectId query
-  window.location.href = `/pages/exam.html?subjectId=${selectedSubject.id}`;
-};
+    //find the selected class item based on user click
+    const selectedSubject = subjectClasses.find(subject => subject.id === id)
+    // Save the raw data (not the class instance) to localStorage
+    localStorage.setItem('selectedSubjectData', JSON.stringify(selectedSubject));
+    //navigate to exam page with custom subjectId query
+    window.location.href = `/pages/exam-page.html?subjectId=${selectedSubject.id}`
+}
 
 //Dummy UI to test, needs more styling
 subjectClasses.map((subject) => {
