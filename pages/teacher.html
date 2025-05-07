@@ -8,61 +8,113 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
 
-    <title>Document</title>
+    <title>Add Question</title>
 </head>
 
-<body >
-    <div class="bbb">
-<div class="con">
-   
-        <img class="left_side" src="../images/shape-1.png" />
-        
-    
-       
-    </div>
-    <div class="form-container">
-        <h2>Add New Question</h2>
-        <input type="text" placeholder="Enter your question here" class="input" />
-        <div class="answer">
-            <input type="text" placeholder="Answer option 1" class="input" />
-            <svg class="w-10 h-10 ml-2 text-gray-400 hover:text-green-500 transition-colors"
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg>
+<body>
+    <form>
+        <div class="bbb">
+            <div class="con">
+
+                <img class="left_side" src="../images/shape-1.png" />
+
+
+
+            </div>
+            <div class="form-container">
+                <h2>Add New Question</h2>
+                <div class="flex justify-between gap-2 items-center ">
+                    <input type="text" placeholder="Enter your question here" class="input" required />
+                    <img src="../images/question-mark.png" class="w-10 h-8 ml-2 ">
+                </div>
+
+                <div class="answer">
+                    <input type="text" placeholder="Answer option 1" class="input" required />
+                    <svg class="w-10 h-10 ml-2 text-gray-400 hover:text-green-500 transition-colors"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+
+                </div>
+                <div class="answer">
+                    <input type="text" placeholder="Answer option 2" class="input" required />
+                    <svg class="w-10 h-10 ml-2 text-gray-400 hover:text-green-500 transition-colors"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+
+                </div>
+                <div class="answer">
+                    <input type="text" placeholder="Answer option 3" class="input" required />
+                    <svg class="w-10 h-10 ml-2 text-gray-400 hover:text-green-500 transition-colors"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+
+                </div>
+                <div class="answer">
+                    <input type="text" placeholder="Answer option 4" class="input" />
+                    <svg class="w-10 h-10 ml-2 text-gray-400 hover:text-green-500 transition-colors"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+
+                </div>
+
+                <div class="flex justify-between gap-2 ">
+
+                    <div class="flex-col w-full ">
+                        <label class="  input input-bordered flex items-center gap-2 validator w-full">
+                            <input id="points" type="number" required placeholder="Points between 1 and 10" min="1"
+                                max="10" title="Must be between 1 and 10" />
+
+                        </label>
+                        <div id="point-hint" class="validator-hint mt-1 text-sm text-red-600 hidden">
+                            Must be between 1 and 10
+                        </div>
+
+                    </div>
+
+                    <img src="../images/exam.png" class="w-10 h-10 top-2 relative" alt="Exam icon">
+
+                </div>
+
+
+
+                <!-- difficultyyy -->
+                <div class="difficulty flex justify-arond items-center gap-40 pb-3">
+                    <div>
+                        <h3 class="text-lg font-semibold mr-4 self-center text-blue-900">Select Difficulty:</h3>
+                    </div>
+
+                    <div class="flex justify-center items-center gap-15 pb-3">
+                        <label class="flex flex-col items-center cursor-pointer">
+                            <input type="radio" name="radio-7" value="easy" class="radio radio-success mb-1"
+                                checked="checked" />
+                            <span class="text-sm text-green-600">Easy</span>
+                        </label>
+                        <label class="flex flex-col items-center cursor-pointer">
+                            <input type="radio" name="radio-7" value="medium" class="radio radio-warning mb-1" />
+                            <span class="text-sm text-orange-500">Medium</span>
+                        </label>
+                        <label class="flex flex-col items-center cursor-pointer">
+                            <input type="radio" name="radio-7" value="hard" class="radio radio-error mb-1" />
+                            <span class="text-sm text-red-600">Hard</span>
+                        </label>
+                    </div>
+                </div>
+
+
+                <button type="submit" class="btn ">Add Question</button>
+
+
+
+            </div>
 
         </div>
-        <div class="answer">
-            <input type="text" placeholder="Answer option 2" class="input" />
-            <svg class="w-10 h-10 ml-2 text-gray-400 hover:text-green-500 transition-colors"
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg>
+    </form>
 
-        </div>
-        <div class="answer">
-            <input type="text" placeholder="Answer option 3" class="input" />
-            <svg class="w-10 h-10 ml-2 text-gray-400 hover:text-green-500 transition-colors"
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg>
-
-        </div>
-        <div class="answer">
-            <input type="text" placeholder="Answer option 4" class="input" />
-            <svg class="w-10 h-10 ml-2 text-gray-400 hover:text-green-500 transition-colors"
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg>
-
-        </div>
-        <button class="btn ">Add Question</button>
-      
-
-
-    </div>
-    
-    </div>
-   <script src="../scripts/teacher.js"></script>  
+    <script src="../scripts/teacher.js"></script>
 
 
 </body>
