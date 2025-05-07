@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>BrainCheck</title>
+    <link rel="stylesheet" href="../css/normalize.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="/css/root/all.min.css">
-    <link rel="stylesheet" href="/css/root/framework.css">
-    <link rel="stylesheet" href="/css//root/style.css">
-
+    <link rel="stylesheet" href="../css/framework.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
@@ -22,53 +22,30 @@
         <div class="sidebar p-20 bg-white shadow-ddd p-relative">
             <h3 class="t-center p-relative">InsightHub</h3>
             <ul>
+
+
                 <li>
-                    <a class="d-flex align-center p-10 rad-6 c-black" href="index.html">
-                        <i class="fa-regular fa-chart-bar fa-fw"></i>
-                        <span class="hide-mobile">Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center p-10 rad-6 c-black" href="setting.html">
-                        <i class="fa-solid fa-gear fa-fw"></i>
-                        <span class="hide-mobile">Settings</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="active d-flex align-center p-10 rad-6 c-black" href="profile.html">
+                    <a class=" active d-flex align-center p-10 rad-6 c-black" href="/pages/profile.html">
                         <i class="fa-regular fa-user fa-fw"></i>
+                        <img src="../images/user.png" class="w-5">
                         <span class="hide-mobile">Profile</span>
                     </a>
                 </li>
+
                 <li>
-                    <a class="d-flex align-center p-10 rad-6 c-black" href="project.html">
-                        <i class="fa-solid fa-diagram-project fa-fw"></i>
-                        <span class="hide-mobile">Projects</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center p-10 rad-6 c-black" href="#course.html">
+                    <a class="  d-flex align-center p-10 rad-6 c-black" href="home.html">
                         <i class="fa-solid fa-graduation-cap fa-fw"></i>
+                        <img src="../images/online-course (1).png" class="w-5">
                         <span class="hide-mobile">Courses</span>
                     </a>
                 </li>
-                <li>
-                    <a class="d-flex align-center p-10 rad-6 c-black" href="#friend.html">
-                        <i class="fa-solid fa-user-group fa-fw"></i>
-                        <span class="hide-mobile">Friends</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center p-10 rad-6 c-black" href="#file.html">
-                        <i class="fa-regular fa-file fa-fw"></i>
-                        <span class="hide-mobile">Files</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center p-10 rad-6 c-black" href="#plan.html">
-                        <i class="fa-regular fa-credit-card fa-fw"></i>
-                        <span class="hide-mobile">Plans</span>
-                    </a>
+
+
+                <li class="w-full">
+                    <div class="flex p-6 justify-center w-full ">
+                        <button class="btn btn-soft btn-error w-full">LogOut</button>
+
+                    </div>
                 </li>
             </ul>
         </div>

@@ -5,10 +5,14 @@ import { collection, db, doc, getDoc, setDoc } from "../firebase.js"
 export const createUser = async (userData) => {
     console.log(userData)
     try {
-        const docRef = doc(db, "users", userData.uid);
+        const docRef = doc(db, "users", userData.id);
         const data = await setDoc(docRef, {
             email: userData.email,
-            displayName: userData.displayName
+            displayName: userData.name,
+            role:userData.role,
+            exams:userData.exams,
+            id:userData.id
+            
         });
         return data;
     } catch (e) {
