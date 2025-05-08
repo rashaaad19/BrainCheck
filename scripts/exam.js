@@ -229,14 +229,13 @@ function showToast() {
 
 const form = document.querySelector('.exam-form');
 
-const isPassing = selectedSubject.isPassing(userScore);
 //submit handler
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async(e) => {
     e.preventDefault();
-    window.location.href = `/pages/result.html?subjectId=${selectedSubject.id}`
+    const isPassing = selectedSubject.isPassing(userScore);
     sessionStorage.setItem('current_score', userScore);
-    createUserExamDoc(userId, selectedSubject, userScore, isPassing)
-
+    await createUserExamDoc(userId, selectedSubject, userScore, isPassing);
+    window.location.href = `/pages/result.html?subjectId=${selectedSubject.id}`
 })
 
 
