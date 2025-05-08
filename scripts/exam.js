@@ -1,13 +1,15 @@
-import { Exam } from "../classes/exam.js";
+import { Exam } from "../classes/Exam.js";
 import { Question } from "../classes/Questions.js";
 import { getAllSubjectQuestions } from "../services/firestore_queries_service.js";
 import { createUserExamDoc } from "../services/firestore_service.js";
 
-let userAnswers = [];
 let userScore = 0;
+let answeredQuestions = {};
+
 const userId = localStorage.getItem('userId');
 //get subjectId from url
 const subjectId = new URLSearchParams(window.location.search).get('subjectId');
+const radioInputs = document.querySelectorAll('input[type=radio]');
 //get the selected subject from local storage and assign it's details to new Exam instance
 const subjectData = JSON.parse(localStorage.getItem('selectedSubjectData'));
 let questionsArr;
@@ -73,40 +75,69 @@ window.addEventListener('load', async () => {
     });
 
 
+    /* ================ FUNCTIONS FOR ANSWER SELECTION ================ */
+
+    radioInputs.forEach((radio) => {
+        radio.addEventListener('change', () => {
+
+            let answerSelected = document.querySelector('.exam-form input[name="exam"]:checked');
+            let answerSelectedTextContent = document.querySelector('.exam-form input[name="exam"]:checked + span');
+            let currentQuestion = questionsData[currentQuestionIndex];
+
+            const isCorrect = currentQuestion.isCorrect(answerSelectedTextContent.textContent);
+            const wasAnsweredBefore = (currentQuestionIndex in answeredQuestions);
+            const prevAnswer = answeredQuestions[currentQuestionIndex]
+            const prevAnswerWasCorrect = wasAnsweredBefore && currentQuestion.isCorrect(prevAnswer)
+
+
+            // Case 1: First time answering (and correct),  Add points
+            if (!wasAnsweredBefore && isCorrect) {
+                userScore += currentQuestion.points;
+            }
+            // Case 2: Previously correct, now wrong, Remove points
+            else if (wasAnsweredBefore && prevAnswerWasCorrect && !isCorrect) {
+                userScore -= currentQuestion.points;
+            }
+            // Case 3: Previously wrong, now correct, Add points
+            else if (wasAnsweredBefore && !prevAnswerWasCorrect && isCorrect) {
+                userScore += currentQuestion.points;
+            }
+
+            //update the latest answer
+            answeredQuestions = {
+                ...answeredQuestions, [currentQuestionIndex]: answerSelectedTextContent
+                    .textContent
+            };
+
+            console.log(answeredQuestions)
+
+            //update session storage 
+            sessionStorage.setItem(`question-${currentQuestionIndex}`, answerSelected.value);
+
+        })
+    })
 
     /* ================ FUNCTIONS FOR EXAM NAVIGATION ================ */
 
     nextButton = document.querySelector(".exam-form .exam-buttons .next");
     previousButton = document.querySelector(".exam-form .exam-buttons .prev");
-    nextButton.addEventListener("click", (e) => {
-        // e.preventDefault();
 
+    nextButton.addEventListener("click", (e) => {
         //make previous button enabled again
         previousButton.classList.remove('disabled-btn');
         previousButton.disabled = false;
-
         let answerSelected = document.querySelector('.exam-form input[name="exam"]:checked');
-        let answerSelectedTextContent = document.querySelector('.exam-form input[name="exam"]:checked + span');
-        let currentQuestion = questionsData[currentQuestionIndex];
-        
-        //if the user selected answer is correct, increase his score
-        if(currentQuestion.isCorrect(answerSelectedTextContent.textContent)){
-            userScore= userScore+currentQuestion.points;
-        }
-        userAnswers.push(answerSelectedTextContent.textContent);
 
+        //Show toast if no answer is selected
         if (!answerSelected) {
             showToast();
             return;
         }
 
-        // sessionStorage.setItem(`answer_${currentQuestionIndex}`, answerSelected.value);
-        sessionStorage.setItem(`question-${currentQuestionIndex}`, answerSelected.value);
-        // console.log(answerSelectedTextContent.textContent)
-
+        //increment the current question pointer
         currentQuestionIndex++;
-        console.log(currentQuestionIndex);
 
+        //next question logic
         if (currentQuestionIndex < questionsData.length) {
             questionNumber.textContent = `Question ${currentQuestionIndex + 1} of ${questionsData.length}`;
             //access the next question in the array
@@ -129,8 +160,7 @@ window.addEventListener('load', async () => {
                 // document.querySelector(`.exam-form input[name="exam"][value="option-${currentQuestionIndex}"]`).checked = true;
                 document.querySelector(`.exam-form input[name="exam"][value=${savedAnswer}]`).checked = true;
             }
-
-
+            //disable button if last question
             if (currentQuestionIndex === 9) {
                 nextButton.classList.add("disabled-btn");
                 nextButton.disabled = true;
@@ -198,16 +228,15 @@ function showToast() {
 
 
 const form = document.querySelector('.exam-form');
-const submitButton = document.querySelector('button[type="submit"]');
 
 const isPassing = selectedSubject.isPassing(userScore);
 //submit handler
 form.addEventListener("submit", (e) => {
     e.preventDefault();
-    console.log(userAnswers)
     window.location.href = `/pages/result.html?subjectId=${selectedSubject.id}`
     sessionStorage.setItem('current_score', userScore);
-    createUserExamDoc(userId,selectedSubject, userScore,isPassing)
+    createUserExamDoc(userId, selectedSubject, userScore, isPassing)
 
 })
+
 

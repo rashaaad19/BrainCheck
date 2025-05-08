@@ -6,3 +6,5 @@ const userScore = sessionStorage.getItem('current_score')
 // alert(`User: ${userId} completed ${subjectId} Exam`);
 
 const subjectData = await getSubjectById(subjectId);
+
+console.log(userScore)

@@ -1,4 +1,4 @@
-import { addDoc, collection, db, doc, getDoc, setDoc } from "../firebase.js"
+import { addDoc, collection, db, doc, getDoc, serverTimestamp, setDoc } from "../firebase.js"
 
 
 
@@ -11,7 +11,8 @@ export const createUser = async (userData) => {
             displayName: userData.name,
             role:userData.role,
             exams:userData.exams,
-            id:userData.id
+            id:userData.id,
+            createdAt:serverTimestamp(),
             
         });
         return data;
@@ -82,6 +83,7 @@ try{
         subjectId : subjectData.id,
         userScore:score,
         pass:isPassing,
+        createdAt:serverTimestamp()
 
     })
 }
