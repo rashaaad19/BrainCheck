@@ -1,9 +1,11 @@
 import { Exam } from "../classes/exam.js";
 import { Question } from "../classes/Questions.js";
-import { doc } from "../firebase.js";
 import { getAllSubjectQuestions } from "../services/firestore_queries_service.js";
+import { createUserExamDoc } from "../services/firestore_service.js";
 
 let userAnswers = [];
+let userScore = 0;
+const userId = localStorage.getItem('userId');
 //get subjectId from url
 const subjectId = new URLSearchParams(window.location.search).get('subjectId');
 //get the selected subject from local storage and assign it's details to new Exam instance
@@ -76,7 +78,6 @@ window.addEventListener('load', async () => {
 
     nextButton = document.querySelector(".exam-form .exam-buttons .next");
     previousButton = document.querySelector(".exam-form .exam-buttons .prev");
-
     nextButton.addEventListener("click", (e) => {
         // e.preventDefault();
 
@@ -86,7 +87,12 @@ window.addEventListener('load', async () => {
 
         let answerSelected = document.querySelector('.exam-form input[name="exam"]:checked');
         let answerSelectedTextContent = document.querySelector('.exam-form input[name="exam"]:checked + span');
-        console.log(answerSelectedTextContent.textContent)
+        let currentQuestion = questionsData[currentQuestionIndex];
+        
+        //if the user selected answer is correct, increase his score
+        if(currentQuestion.isCorrect(answerSelectedTextContent.textContent)){
+            userScore= userScore+currentQuestion.points;
+        }
         userAnswers.push(answerSelectedTextContent.textContent);
 
         if (!answerSelected) {
@@ -194,8 +200,14 @@ function showToast() {
 const form = document.querySelector('.exam-form');
 const submitButton = document.querySelector('button[type="submit"]');
 
-form.addEventListener("submit",(e)=>{
+const isPassing = selectedSubject.isPassing(userScore);
+//submit handler
+form.addEventListener("submit", (e) => {
     e.preventDefault();
     console.log(userAnswers)
+    window.location.href = `/pages/result.html?subjectId=${selectedSubject.id}`
+    sessionStorage.setItem('current_score', userScore);
+    createUserExamDoc(userId,selectedSubject, userScore,isPassing)
+
 })
 

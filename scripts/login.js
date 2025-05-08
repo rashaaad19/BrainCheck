@@ -23,6 +23,7 @@ form.addEventListener("submit", async (event) => {
     console.log(userCredentials);
     console.log(passwordInput.reportValidity());
     passwordInput.setCustomValidity('');
+    localStorage.setItem('userId', userCredentials.uid);
 
 
     location.replace("/pages/home.html");

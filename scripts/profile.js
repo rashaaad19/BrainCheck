@@ -1,4 +1,4 @@
-import { getCurrentUserDoc } from "../services/firestore_queries_service.js";
+import { getCurrentUserDoc, getUserExamHistory } from "../services/firestore_queries_service.js";
 
 //get user ID from local storage
 const userID = localStorage.getItem('userId');
@@ -28,3 +28,6 @@ if(userData.role==='student'){
     userImg.src = '../images/pupil.png'
 }
 
+
+
+console.log(await getUserExamHistory(userID))

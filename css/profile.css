@@ -4,3 +4,11 @@
 .general-information, .personal-information{
     text-align: left;
 }
+
+.profile-info .right{
+    height: fit-content;
+    border: 1px solid #eee;
+}
+#userRole{
+    text-transform: capitalize;
+}

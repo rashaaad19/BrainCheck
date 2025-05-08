@@ -1,4 +1,4 @@
-import { collection, db, doc, getDoc, setDoc } from "../firebase.js"
+import { addDoc, collection, db, doc, getDoc, setDoc } from "../firebase.js"
 
 
 
@@ -70,3 +70,22 @@ export const createQuestionCollection = async (questions, subjectID) => {
 
 }
 
+
+export const createUserExamDoc=async(userId,subjectData,score,isPassing)=>{
+try{
+    const docRef = collection(db,'exam-history');
+    const data = await addDoc(docRef,{
+        uid:userId,
+        subjectName:subjectData.subjectName,
+        description:subjectData.description,
+        passingGrade:subjectData.passingGrade,
+        subjectId : subjectData.id,
+        userScore:score,
+        pass:isPassing,
+
+    })
+}
+catch(e){
+    throw new Error(e)
+}
+}
