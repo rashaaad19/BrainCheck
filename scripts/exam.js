@@ -1,4 +1,4 @@
-import { Exam } from "../classes/exam.js";
+import { Exam } from "../classes/Exam.js";
 import { Question } from "../classes/Questions.js";
 import { getAllSubjectQuestions } from "../services/firestore_queries_service.js";
 
