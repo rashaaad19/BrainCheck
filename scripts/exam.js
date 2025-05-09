@@ -5,6 +5,7 @@ import { createUserExamDoc } from "../services/firestore_service.js";
 
 let userScore = 0;
 let answeredQuestions = {};
+let bookmarkedQuestions = {};
 
 const userId = localStorage.getItem('userId');
 //get subjectId from url
@@ -136,6 +137,7 @@ window.addEventListener('load', async () => {
 
         //increment the current question pointer
         currentQuestionIndex++;
+        updateMarkButtonState();
 
         //next question logic
         if (currentQuestionIndex < questionsData.length) {
@@ -181,6 +183,7 @@ window.addEventListener('load', async () => {
         // console.log(currentQuestionIndex);
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
+            updateMarkButtonState();
 
             questionNumber.textContent = `Question ${currentQuestionIndex + 1} of ${questionsData.length}`;
             questionTitle.textContent = questionsData[currentQuestionIndex].questionText;
@@ -239,9 +242,8 @@ form.addEventListener("submit", async (e) => {
 })
 
 
-
+//timer handler
 let span = document.querySelector(".time-progress span");
-
 function TimeProgress() {
     let width = 0;
 
@@ -252,7 +254,7 @@ function TimeProgress() {
             sessionStorage.setItem('current_score', userScore);
             await createUserExamDoc(userId, selectedSubject, userScore, isPassing);
             window.location.href = `/pages/result.html?subjectId=${selectedSubject.id}`
-        
+
         }
 
         else {
@@ -262,38 +264,62 @@ function TimeProgress() {
                 width = 100;
             }
         }
-    }, 10);
+    }, 100);
 }
-
 TimeProgress();
 
 
+//Questions bookmark
+let markbtn = document.querySelectorAll(".exam-buttons button")[1];
+let questionsmarked = document.createElement("div");
 
-function MarkedQuestions() {
-    let markbtn = document.querySelectorAll(".exam-buttons button")[1];
-    let questionsmarked = document.createElement("div");
+markbtn.addEventListener("click", function () {
+    //check if the question already featured in bookmarked
+    if(currentQuestionIndex in bookmarkedQuestions){
+        markBtn.textContent = 'Mark';
+        delete bookmarkedQuestions[currentQuestionIndex];
+        console.log(bookmarkedQuestions)
+    }
+    //execute if the question is not in bookmark object
+    else{
+        console.log(' bookmarked')
+        markBtn.textContent='Unmark';
+        bookmarkedQuestions = { ...bookmarkedQuestions, [currentQuestionIndex]:true };
+        console.log(bookmarkedQuestions)
 
-    markbtn.addEventListener("click", function () {
-        if (markbtn.textContent === "Mark") {
-            questionsmarked.style.display = 'block';
-            markbtn.textContent = " Unmark"
+    }
 
-            let devCards = document.querySelector(".mark-card");
-            questionsmarked.textContent = `Question ${currentQuestionIndex + 1}`;
-            devCards.appendChild(questionsmarked);
+    // console.log(bookmarkedQuestions)
+    // if (markbtn.textContent === "Mark") {
+    //     questionsmarked.style.display = 'block';
+    //     markbtn.textContent = " Unmark"
+    //     let devCards = document.querySelector(".mark-card");
+    //     questionsmarked.textContent = `Question ${currentQuestionIndex + 1}`;
+    //     devCards.appendChild(questionsmarked);
 
-        } else {
-            markbtn.textContent = "Mark"
-            questionsmarked.style.display = 'none';
-        }
+    // } else {
+    //     markbtn.textContent = "Mark"
+    //     questionsmarked.style.display = 'none';
+    // }
 
-    });
+});
 
-}
-MarkedQuestions()
+
 
 
 const markBtn = document.querySelector('.mark');
 markBtn.addEventListener('click', () => {
-    console.log(`${currentQuestionIndex} is bookmarked`)
+    // console.log(`${currentQuestionIndex} is bookmarked`)
 })
+
+
+
+
+// Function to update the button state based on current question
+function updateMarkButtonState() {
+    if (currentQuestionIndex in bookmarkedQuestions) {
+        markBtn.textContent = 'Unmark';
+    } else {
+        markBtn.textContent = 'Mark';
+    }
+}
