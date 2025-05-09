@@ -159,9 +159,9 @@ window.addEventListener('load', async () => {
                 //Important
                 // document.querySelector(`.exam-form input[name="exam"][value="option-${currentQuestionIndex}"]`).checked = true;
                 document.querySelector(`.exam-form input[name="exam"][value=${savedAnswer}]`).checked = true;
-            }
+            }console.log(questionsArr.length)
             //disable button if last question
-            if (currentQuestionIndex === 9) {
+            if (currentQuestionIndex === questionsArr.length-1) {
                 nextButton.classList.add("disabled-btn");
                 nextButton.disabled = true;
             }
