@@ -159,9 +159,9 @@ window.addEventListener('load', async () => {
                 //Important
                 // document.querySelector(`.exam-form input[name="exam"][value="option-${currentQuestionIndex}"]`).checked = true;
                 document.querySelector(`.exam-form input[name="exam"][value=${savedAnswer}]`).checked = true;
-            }console.log(questionsArr.length)
+            } console.log(questionsArr.length)
             //disable button if last question
-            if (currentQuestionIndex === questionsArr.length-1) {
+            if (currentQuestionIndex === questionsArr.length - 1) {
                 nextButton.classList.add("disabled-btn");
                 nextButton.disabled = true;
             }
@@ -230,7 +230,7 @@ function showToast() {
 const form = document.querySelector('.exam-form');
 
 //submit handler
-form.addEventListener("submit", async(e) => {
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const isPassing = selectedSubject.isPassing(userScore);
     sessionStorage.setItem('current_score', userScore);
@@ -239,3 +239,61 @@ form.addEventListener("submit", async(e) => {
 })
 
 
+
+let span = document.querySelector(".time-progress span");
+
+function TimeProgress() {
+    let width = 0;
+
+    let step = setInterval(async function () {
+        if (width >= 100) {
+            clearInterval(step);
+            const isPassing = selectedSubject.isPassing(userScore);
+            sessionStorage.setItem('current_score', userScore);
+            await createUserExamDoc(userId, selectedSubject, userScore, isPassing);
+            window.location.href = `/pages/result.html?subjectId=${selectedSubject.id}`
+        
+        }
+
+        else {
+            width = width + .10;
+            span.style.width = width + "%";
+            if (width > 100) {
+                width = 100;
+            }
+        }
+    }, 10);
+}
+
+TimeProgress();
+
+
+
+function MarkedQuestions() {
+    let markbtn = document.querySelectorAll(".exam-buttons button")[1];
+    let questionsmarked = document.createElement("div");
+
+    markbtn.addEventListener("click", function () {
+        if (markbtn.textContent === "Mark") {
+            questionsmarked.style.display = 'block';
+            markbtn.textContent = " Unmark"
+
+            let devCards = document.querySelector(".mark-card");
+            questionsmarked.textContent = `Question ${currentQuestionIndex + 1}`;
+            devCards.appendChild(questionsmarked);
+
+        } else {
+            markbtn.textContent = "Mark"
+            questionsmarked.style.display = 'none';
+        }
+
+    });
+
+}
+MarkedQuestions()
+
+
+const markBtn = document.querySelector('.mark');
+markBtn.addEventListener('click', () => {
+    console.log(`${currentQuestionIndex} is bookmarked`)
+})

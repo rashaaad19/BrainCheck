@@ -45,7 +45,7 @@ console.log(markbtn)
 markbtn.addEventListener("click", function(){
   if(   markbtn.textContent==="Mark"){
 
-       markbtn.textContent="Un Mark"
+       markbtn.textContent="UnMark"
 
   let devCards=document.querySelector(".mark-card");
 
