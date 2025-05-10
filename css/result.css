@@ -90,3 +90,25 @@
         font-size: 40px;
     }
 }
+.result-container .show-result .profile-btn-container{
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+padding-right: 20px;
+   
+}
+
+.result-container .show-result  .profile-btn{
+    color: var(--secondary-blue-color);
+    background-color: var(--primary-yellow-color);
+    font-family: "landing-page-font";
+    padding: 4px 20px;
+    border-radius: 6px;
+    font-weight: 800;
+    font-size: 12px;
+    /* margin-right:  auto; */
+} 
+
+.result-container .show-result{
+    display: none;
+}
