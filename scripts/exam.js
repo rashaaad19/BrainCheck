@@ -2,17 +2,23 @@ import { Exam } from "../classes/Exam.js";
 import { Question } from "../classes/Questions.js";
 import { getAllSubjectQuestions } from "../services/firestore_queries_service.js";
 import { createUserExamDoc } from "../services/firestore_service.js";
-import { showInitialQuestions, updateExamData } from "../utilities/displayFunctions.js";
-import { fetchExamData, radioAnswerTracker, showToast } from "../utilities/functions.js";
+import { showInitialQuestions, updateExamData, updateMarkButtonState } from "../utilities/displayFunctions.js";
+import { fetchExamData, radioAnswerTracker, showToast, timeProgress } from "../utilities/functions.js";
 
 let userScore = 0;
 let answeredQuestions = {};
 let bookmarkedQuestions = {};
 
+let span = document.querySelector(".time-progress span");
+const markBtn = document.querySelector('.mark');
+const radioInputs = document.querySelectorAll('input[type=radio]');
+const form = document.querySelector('.exam-form');
+
+
+
 const userId = localStorage.getItem('userId');
 //get subjectId from url
 const subjectId = new URLSearchParams(window.location.search).get('subjectId');
-const radioInputs = document.querySelectorAll('input[type=radio]');
 //get the selected subject from local storage and assign it's details to new Exam instance
 const subjectData = JSON.parse(localStorage.getItem('selectedSubjectData'));
 var selectedSubject = new Exam(
@@ -44,11 +50,12 @@ window.addEventListener('load', async () => {
     /* ================ RADIO BUTTON HANDLER ================ */
 
     radioInputs.forEach((radio) => {
-        radio.addEventListener('change', () => radioAnswerTracker(currentQuestionIndex, userScore, questionsData, answeredQuestions))
+        //store the user score to keep it updated
+        radio.addEventListener('change', () => userScore = radioAnswerTracker(currentQuestionIndex, userScore, questionsData, answeredQuestions))
     })
 
 
-    /* ================ FUNCTIONS FOR EXAM NAVIGATION ================ */
+    /* ================ FUNCTIONS FOR NEXT NAVIGATION ================ */
 
     nextButton = document.querySelector(".exam-form .exam-buttons .next");
     previousButton = document.querySelector(".exam-form .exam-buttons .prev");
@@ -67,7 +74,7 @@ window.addEventListener('load', async () => {
 
         //increment the current question pointer
         currentQuestionIndex++;
-        updateMarkButtonState();
+        updateMarkButtonState(currentQuestionIndex, bookmarkedQuestions, markBtn);
 
         //next question logic
         if (currentQuestionIndex < questionsData.length) {
@@ -94,6 +101,8 @@ window.addEventListener('load', async () => {
     });
 
 
+        /* ================ FUNCTIONS FOR PREVIOUS NAVIGATION ================ */
+
     previousButton.addEventListener("click", (e) => {
         let answerSelectedTextContent = document.querySelector('.exam-form input[name="exam"]:checked + span');
         e.preventDefault();
@@ -103,7 +112,7 @@ window.addEventListener('load', async () => {
 
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
-            updateMarkButtonState();
+            updateMarkButtonState(currentQuestionIndex, bookmarkedQuestions, markBtn);
             updateExamData(currentQuestionIndex, questionNumber, questionTitle, questionsData, answerTextFromHtml, answerValues)
             // clear selected answer
             document.querySelectorAll('.exam-form input[name="exam"]').forEach(input => input.checked = false);
@@ -122,7 +131,6 @@ window.addEventListener('load', async () => {
     });
 
     //Questions bookmark
-    const markBtn = document.querySelector('.mark');
 
     markBtn.addEventListener("click", function () {
         const bookmarkIndex = currentQuestionIndex;
@@ -157,7 +165,7 @@ window.addEventListener('load', async () => {
                 }
 
                 // Update button states
-                updateMarkButtonState();
+                updateMarkButtonState(currentQuestionIndex, bookmarkedQuestions, markBtn);
 
                 // Handle prev/next button disabling
                 if (bookmarkIndex === 0) {
@@ -174,37 +182,24 @@ window.addEventListener('load', async () => {
             questionsmarked.id = `bookmark-${currentQuestionIndex}`;
 
             devCards.appendChild(questionsmarked);
-
-
             bookmarkedQuestions = { ...bookmarkedQuestions, [currentQuestionIndex]: true };
             console.log(bookmarkedQuestions)
         }
     });
 
-    // Function to update the button state based on current question
-    function updateMarkButtonState() {
-        if (currentQuestionIndex in bookmarkedQuestions) {
-            markBtn.textContent = 'Unmark';
-
-        } else {
-            markBtn.textContent = 'Mark';
-        }
-    }
-
 
 
 });
 
-// Toast function 
 
 
 
-const form = document.querySelector('.exam-form');
 
 //submit handler
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const isPassing = selectedSubject.isPassing(userScore);
+    console.log(isPassing, userScore)
     sessionStorage.setItem('current_score', userScore);
     await createUserExamDoc(userId, selectedSubject, userScore, isPassing);
     //clears the session storage
@@ -219,29 +214,6 @@ form.addEventListener("submit", async (e) => {
 
 
 //timer handler
-let span = document.querySelector(".time-progress span");
-function TimeProgress() {
-    let width = 0;
-
-    let step = setInterval(async function () {
-        if (width >= 100) {
-            clearInterval(step);
-            const isPassing = selectedSubject.isPassing(userScore);
-            sessionStorage.setItem('current_score', userScore);
-            await createUserExamDoc(userId, selectedSubject, userScore, isPassing);
-            window.location.href = `/pages/result.html?subjectId=${selectedSubject.id}`
-
-        }
-
-        else {
-            width = width + .10;
-            span.style.width = width + "%";
-            if (width > 100) {
-                width = 100;
-            }
-        }
-    }, 500);
-}
-TimeProgress();
+timeProgress(span,selectedSubject,userId, userScore);
 
 
