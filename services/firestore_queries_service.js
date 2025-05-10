@@ -23,7 +23,7 @@ export const getSubjectById=async(id)=>{
 
 }
 
-//pass the subject id, and returns all questions appear fo this subject
+//pass the subject id, and returns all questions appear fo this subject >>>>>>>>>
 export const getAllSubjectQuestions = async (id) => {
     try {
         //create reference to the subject in firestore with it's id

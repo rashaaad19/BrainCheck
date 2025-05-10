@@ -1,7 +1,12 @@
 import { Exam } from "../classes/Exam.js";
-import { getAllSubjectsData } from "../services/firestore_queries_service.js";
+import {
+  getAllSubjectsData,
+  getCurrentUserDoc,
+} from "../services/firestore_queries_service.js";
 
 const container = document.getElementsByClassName("subjects-container")[0];
+const userId = localStorage.getItem("userId");
+const currentUser = await getCurrentUserDoc(userId);
 console.log("Home js");
 //fetch subjects data and assign each subject as Exam instance
 const subjects = await getAllSubjectsData();
@@ -25,7 +30,11 @@ const subjectButtonHandler = async (id) => {
   // Save the raw data (not the class instance) to localStorage
   localStorage.setItem("selectedSubjectData", JSON.stringify(selectedSubject));
   //navigate to exam page with custom subjectId query
-  window.location.href = `/pages/exam-page.html?subjectId=${selectedSubject.id}`;
+  if (currentUser.role === "teacher") {
+    window.location.href = `/pages/teacher.html?subjectId=${selectedSubject.id}`;
+  } else {
+    window.location.href = `/pages/exam-page.html?subjectId=${selectedSubject.id}`;
+  }
 };
 
 //courses based on firestore
