@@ -2,6 +2,8 @@ import { Exam } from "../classes/Exam.js";
 import { Question } from "../classes/Questions.js";
 import { getAllSubjectQuestions } from "../services/firestore_queries_service.js";
 import { createUserExamDoc } from "../services/firestore_service.js";
+import { showInitialQuestions, updateExamData } from "../utilities/displayFunctions.js";
+import { fetchExamData, radioAnswerTracker, showToast } from "../utilities/functions.js";
 
 let userScore = 0;
 let answeredQuestions = {};
@@ -13,7 +15,6 @@ const subjectId = new URLSearchParams(window.location.search).get('subjectId');
 const radioInputs = document.querySelectorAll('input[type=radio]');
 //get the selected subject from local storage and assign it's details to new Exam instance
 const subjectData = JSON.parse(localStorage.getItem('selectedSubjectData'));
-let questionsArr;
 var selectedSubject = new Exam(
     subjectData.id,
     subjectData.subjectName,
@@ -22,111 +23,30 @@ var selectedSubject = new Exam(
     subjectData.passingGrade
 )
 
-const fetchExamData = async (id) => {
-    //fetch all questions for the subject and create instance for them 
-    const questions = await getAllSubjectQuestions(id);
-    questionsArr = questions.slice(0, 10).map(question =>
-        new Question(
-            question.id,
-            question.examId,
-            question.questionText,
-            question.options,
-            question.correctAnswer,
-            question.difficulty,
-            question.points
-        )
-    );
-    //update the questions array in the class
-    selectedSubject.addQuestions(questionsArr)
-    questionsArr = questionsArr.map(question => question.shuffleOptions())
-    selectedSubject.shuffleQuestions();
-
-    return questionsArr;
-
-}
-
 
 let currentQuestionIndex = 0;
 let nextButton, previousButton;
 
 //fetch exam data when the page opens
 window.addEventListener('load', async () => {
-    await fetchExamData(subjectId);
-
-    console.log(selectedSubject.questions)
-
+    //fetch questions for selected Subject
+    var questionsArr = await fetchExamData(subjectId, selectedSubject);
     let questionsData = selectedSubject.questions;
 
-    /* ================ START EXAM INFO =================== */
-    let examName = document.querySelector('.exam-heading .exam-name')
-    examName.textContent = selectedSubject.subjectName;
 
-    let questionNumber = document.querySelector(".exam-form .question-num");
-    questionNumber.textContent = `Question ${1} of ${questionsData.length}`;
+    const { examName,
+        questionNumber,
+        questionTitle,
+        answerValues,
+        answerTextFromHtml
+    } = showInitialQuestions(selectedSubject)
 
-    let questionTitle = document.querySelector(".exam-form .question-title");
-    questionTitle.textContent = questionsData[0].questionText;
-
-    let answerTextFromHtml = document.querySelectorAll(".exam-form label span");
-    let answerValues = Object.values(questionsData[0].options);
-    answerTextFromHtml.forEach((item, index) => {
-        item.textContent = answerValues[index];
-    });
-
-
-
-    const updateExamData = (currentQuestionIndex) => {
-        questionNumber.textContent = `Question ${currentQuestionIndex + 1} of ${questionsData.length}`;
-        //access the next question in the array
-        questionTitle.textContent = questionsData[currentQuestionIndex].questionText;
-        //access the answers to the next question in the array
-        let answerValues = Object.values(questionsData[currentQuestionIndex].options);
-        answerTextFromHtml.forEach((item, index) => {
-            item.textContent = answerValues[index];
-        });
-
-    }
-    /* ================ FUNCTIONS FOR ANSWER SELECTION ================ */
+    /* ================ RADIO BUTTON HANDLER ================ */
 
     radioInputs.forEach((radio) => {
-        radio.addEventListener('change', () => {
-
-            let answerSelected = document.querySelector('.exam-form input[name="exam"]:checked');
-            let answerSelectedTextContent = document.querySelector('.exam-form input[name="exam"]:checked + span');
-            let currentQuestion = questionsData[currentQuestionIndex];
-
-            const isCorrect = currentQuestion.isCorrect(answerSelectedTextContent.textContent);
-            const wasAnsweredBefore = (currentQuestionIndex in answeredQuestions);
-            const prevAnswer = answeredQuestions[currentQuestionIndex]
-            const prevAnswerWasCorrect = wasAnsweredBefore && currentQuestion.isCorrect(prevAnswer)
-
-
-            // Case 1: First time answering (and correct),  Add points
-            if (!wasAnsweredBefore && isCorrect) {
-                userScore += currentQuestion.points;
-            }
-            // Case 2: Previously correct, now wrong, Remove points
-            else if (wasAnsweredBefore && prevAnswerWasCorrect && !isCorrect) {
-                userScore -= currentQuestion.points;
-            }
-            // Case 3: Previously wrong, now correct, Add points
-            else if (wasAnsweredBefore && !prevAnswerWasCorrect && isCorrect) {
-                userScore += currentQuestion.points;
-            }
-
-            //update the latest answer
-            answeredQuestions = {
-                ...answeredQuestions, [currentQuestionIndex]: answerSelectedTextContent
-                    .textContent
-            };
-
-            console.log(answeredQuestions)
-
-            //update session storage 
-            sessionStorage.setItem(`question-${currentQuestionIndex}`, answerSelected.value);
-
-        })
+        radio.addEventListener('change', () => radioAnswerTracker(currentQuestionIndex, userScore, questionsData, answeredQuestions))
     })
+
 
     /* ================ FUNCTIONS FOR EXAM NAVIGATION ================ */
 
@@ -152,7 +72,7 @@ window.addEventListener('load', async () => {
         //next question logic
         if (currentQuestionIndex < questionsData.length) {
             //change the content of the exam 
-            updateExamData(currentQuestionIndex)
+            updateExamData(currentQuestionIndex, questionNumber, questionTitle, questionsData, answerTextFromHtml, answerValues)
             // clear selected answer
             document.querySelectorAll('.exam-form input[name="exam"]').forEach(input => input.checked = false);
 
@@ -184,7 +104,7 @@ window.addEventListener('load', async () => {
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
             updateMarkButtonState();
-            updateExamData(currentQuestionIndex)
+            updateExamData(currentQuestionIndex, questionNumber, questionTitle, questionsData, answerTextFromHtml, answerValues)
             // clear selected answer
             document.querySelectorAll('.exam-form input[name="exam"]').forEach(input => input.checked = false);
             // Restore the saved answer for this question (if any)
@@ -225,7 +145,7 @@ window.addEventListener('load', async () => {
             // navigate to the selected question
             questionsmarked.addEventListener('click', () => {
                 currentQuestionIndex = bookmarkIndex; // Update the current index
-                updateExamData(bookmarkIndex);
+                updateExamData(bookmarkIndex, questionNumber, questionTitle, questionsData, answerTextFromHtml, answerValues)
 
                 // Clear previous selection
                 document.querySelectorAll('.exam-form input[name="exam"]').forEach(input => input.checked = false);
@@ -276,16 +196,6 @@ window.addEventListener('load', async () => {
 });
 
 // Toast function 
-function showToast() {
-    const toast = document.getElementById("exam-toast");
-    const span = toast.querySelector("span");
-
-    toast.classList.remove("hidden");
-
-    setTimeout(() => {
-        toast.classList.add("hidden");
-    }, 2000);
-}
 
 
 
@@ -330,7 +240,7 @@ function TimeProgress() {
                 width = 100;
             }
         }
-    }, 100);
+    }, 500);
 }
 TimeProgress();
 
