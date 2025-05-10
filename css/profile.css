@@ -12,3 +12,113 @@
 #userRole{
     text-transform: capitalize;
 }
+
+.profile-bottom{
+    width: 100%;
+}
+
+
+.examHistory_container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 6px solid;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.examHistory_container{
+    border-left-color:#FFB700 ;
+}
+.examHistory_status.pass {
+    background-color: #2ecc71;
+    color: #f8f9fa;
+}
+
+.examHistory_status.fail {
+    background-color: #e74c3c;
+    color: #fff9f9;
+}
+
+.examHistory_header {
+    color: #2c3e50;
+    margin: 0 0 8px 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.examHistory_subjectCode {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    background: #ecf0f1;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.examHistory_description {
+    color: #34495e;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 10px 0 15px;
+    font-style: italic;
+}
+
+.examHistory_meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #ecf0f1;
+}
+
+.examHistory_date {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+}
+
+.examHistory_status {
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+}
+
+
+.examHistory_userScore {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2c3e50;
+    min-width: 40px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.examHistory_passingGrade {
+    font-size: 0.9rem;
+    color: #e74c3c;
+    font-style: italic;
+}
+
+
+
+@media (max-width:980px) {
+    .profile-info{
+        flex-direction: column;
+        padding-left: 0px;
+    }
+    .right.t-center{
+        width: 100%;
+    }
+    .latest-activties{
+        width: 75%;
+    }
+    
+}
