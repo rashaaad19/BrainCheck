@@ -30,12 +30,23 @@ form.addEventListener("submit", async (event) => {
     const userEmail = data.get("email");
     const userPassword = data.get("password");
     const userName = data.get('name');
+    const userRole = data.get('role')
+
     try {
         const userCredential = await userSignup(userEmail, userPassword, userName);
+        const userData = {
+            name: userCredential.displayName,
+            email: userCredential.email,
+            id: userCredential.uid,
+            role: userRole,
+            exams:[]
+        }
+        console.log(userData)
+        localStorage.setItem('userId', userData.id);
         console.log("User signed up:", userCredential);
-        const userDoc = await createUser(userCredential);
+        const userDoc = await createUser(userData);
         console.log('Doc Saved!', userDoc)
-        location.replace('/pages/login.html')
+        location.replace('/pages/login.html')   
     } catch (e) {
         const errorMessage = e.message;
         const errorCode = e.code

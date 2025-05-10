@@ -184,6 +184,7 @@ body {
         position: absolute;
         top: -270px;
         left: 0;
+
         width: 350px;
         z-index: 0;
         transform: rotate(270deg);
@@ -238,5 +239,10 @@ body {
         color: white;
         align-items: center;
     }
+    .hero-logo{
+        display: none;
+    }  .nav-section{
+        background-color: rgb(6, 6, 95);
+     }
 
 }

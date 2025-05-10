@@ -16,7 +16,6 @@ export const getAllSubjectNames = async () => {
     return arrNames;
 }
 
-//return the 
 export const getSubjectById=async(id)=>{
     const docRef = doc(db, 'exams',id);
     const querySnapshot = await getDoc(docRef);
@@ -96,5 +95,13 @@ export const getCurrentUserDoc=async(id)=>{
   const userRef =    doc(db, 'users', id);
     const querySnapshot =  await getDoc(userRef);
     return querySnapshot.data()
+
+}
+
+export const getUserExamHistory=async(id)=>{
+    const querySnapshot = await getDocs(collection(db, 'exam-history'));
+    const allData = querySnapshot.docs.map((doc) => doc.data());
+    const userData = allData.filter(item=>item.uid===id);
+    return userData;
 
 }
