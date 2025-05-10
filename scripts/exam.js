@@ -25,7 +25,7 @@ var selectedSubject = new Exam(
 const fetchExamData = async (id) => {
     //fetch all questions for the subject and create instance for them 
     const questions = await getAllSubjectQuestions(id);
-    questionsArr = questions.map(question =>
+    questionsArr = questions.slice(0, 10).map(question =>
         new Question(
             question.id,
             question.examId,
@@ -162,7 +162,7 @@ window.addEventListener('load', async () => {
             if (savedAnswer) {
                 //Important
                 document.querySelector(`.exam-form input[name="exam"][value=${savedAnswer}]`).checked = true;
-            } console.log(questionsArr.length)
+            }
             //disable button if last question
             if (currentQuestionIndex === questionsArr.length - 1) {
                 nextButton.classList.add("disabled-btn");
@@ -221,9 +221,36 @@ window.addEventListener('load', async () => {
             let devCards = document.querySelector(".mark-card");
             let questionsmarked = document.createElement("div");
             questionsmarked.textContent = `Question ${currentQuestionIndex + 1}`;
+
+            // navigate to the selected question
             questionsmarked.addEventListener('click', () => {
-                updateExamData(bookmarkIndex)
-            })
+                currentQuestionIndex = bookmarkIndex; // Update the current index
+                updateExamData(bookmarkIndex);
+
+                // Clear previous selection
+                document.querySelectorAll('.exam-form input[name="exam"]').forEach(input => input.checked = false);
+
+                // Restore saved answer (if any)
+                let savedAnswer = sessionStorage.getItem(`question-${bookmarkIndex}`);
+                if (savedAnswer) {
+                    document.querySelector(`.exam-form input[name="exam"][value=${savedAnswer}]`).checked = true;
+                }
+
+                // Update button states
+                updateMarkButtonState();
+
+                // Handle prev/next button disabling
+                if (bookmarkIndex === 0) {
+                    previousButton.disabled = true;
+                    previousButton.classList.add('disabled-btn')
+                }
+                if (bookmarkIndex === questionsArr.length - 1) {
+                    previousButton.disabled = false;
+                    previousButton.classList.remove('disabled-btn')
+
+                }
+
+            });
             questionsmarked.id = `bookmark-${currentQuestionIndex}`;
 
             devCards.appendChild(questionsmarked);
@@ -270,7 +297,14 @@ form.addEventListener("submit", async (e) => {
     const isPassing = selectedSubject.isPassing(userScore);
     sessionStorage.setItem('current_score', userScore);
     await createUserExamDoc(userId, selectedSubject, userScore, isPassing);
+    //clears the session storage
+    Object.keys(sessionStorage).forEach(key => {
+        if (key.startsWith("question-")) {
+            sessionStorage.removeItem(key);
+        }
+    });
     window.location.href = `/pages/result.html?subjectId=${selectedSubject.id}`
+
 })
 
 
