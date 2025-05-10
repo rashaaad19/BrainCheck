@@ -41,8 +41,6 @@ const fetchExamData = async (id) => {
     questionsArr = questionsArr.map(question => question.shuffleOptions())
     selectedSubject.shuffleQuestions();
 
-    //local storage accept json strings , must be parsed again when used
-    // console.log(selectedSubject)
     return questionsArr;
 
 }
@@ -53,7 +51,7 @@ let nextButton, previousButton;
 
 //fetch exam data when the page opens
 window.addEventListener('load', async () => {
-    const data = await fetchExamData(subjectId);
+    await fetchExamData(subjectId);
 
     console.log(selectedSubject.questions)
 
@@ -76,6 +74,18 @@ window.addEventListener('load', async () => {
     });
 
 
+
+    const updateExamData = (currentQuestionIndex) => {
+        questionNumber.textContent = `Question ${currentQuestionIndex + 1} of ${questionsData.length}`;
+        //access the next question in the array
+        questionTitle.textContent = questionsData[currentQuestionIndex].questionText;
+        //access the answers to the next question in the array
+        let answerValues = Object.values(questionsData[currentQuestionIndex].options);
+        answerTextFromHtml.forEach((item, index) => {
+            item.textContent = answerValues[index];
+        });
+
+    }
     /* ================ FUNCTIONS FOR ANSWER SELECTION ================ */
 
     radioInputs.forEach((radio) => {
@@ -141,25 +151,16 @@ window.addEventListener('load', async () => {
 
         //next question logic
         if (currentQuestionIndex < questionsData.length) {
-            questionNumber.textContent = `Question ${currentQuestionIndex + 1} of ${questionsData.length}`;
-            //access the next question in the array
-            questionTitle.textContent = questionsData[currentQuestionIndex].questionText;
-            //access the answers to the next question in the array
-            let answerValues = Object.values(questionsData[currentQuestionIndex].options);
-            answerTextFromHtml.forEach((item, index) => {
-                item.textContent = answerValues[index];
-            });
-
+            //change the content of the exam 
+            updateExamData(currentQuestionIndex)
             // clear selected answer
             document.querySelectorAll('.exam-form input[name="exam"]').forEach(input => input.checked = false);
 
             // Restore the saved answer for this question
-
             //Search for an answer for the question with this index
             let savedAnswer = sessionStorage.getItem(`question-${currentQuestionIndex}`);
             if (savedAnswer) {
                 //Important
-                // document.querySelector(`.exam-form input[name="exam"][value="option-${currentQuestionIndex}"]`).checked = true;
                 document.querySelector(`.exam-form input[name="exam"][value=${savedAnswer}]`).checked = true;
             } console.log(questionsArr.length)
             //disable button if last question
@@ -180,40 +181,71 @@ window.addEventListener('load', async () => {
         nextButton.classList.remove("disabled-btn");
         nextButton.disabled = false;
 
-        // console.log(currentQuestionIndex);
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
             updateMarkButtonState();
-
-            questionNumber.textContent = `Question ${currentQuestionIndex + 1} of ${questionsData.length}`;
-            questionTitle.textContent = questionsData[currentQuestionIndex].questionText;
-
-            let answerValues = Object.values(questionsData[currentQuestionIndex].options);
-            answerTextFromHtml.forEach((item, index) => {
-                item.textContent = answerValues[index];
-            });
-
+            updateExamData(currentQuestionIndex)
             // clear selected answer
             document.querySelectorAll('.exam-form input[name="exam"]').forEach(input => input.checked = false);
-
             // Restore the saved answer for this question (if any)
             let savedAnswer = sessionStorage.getItem(`question-${currentQuestionIndex}`);
             console.log(savedAnswer)
-            // console.log(answerSelected)
-            // console.log(answerSelected.value)
             if (savedAnswer) {
                 console.log(savedAnswer);
-                // document.querySelector(`.exam-form input[name="exam"][value="option-${currentQuestionIndex}"]`).checked = true;
                 document.querySelector(`.exam-form input[name="exam"][value=${savedAnswer}]`).checked = true;
-
             }
             if (currentQuestionIndex === 0) {
                 previousButton.classList.add("disabled-btn");
                 previousButton.disabled = true;
             }
-
         }
     });
+
+    //Questions bookmark
+    const markBtn = document.querySelector('.mark');
+
+    markBtn.addEventListener("click", function () {
+        const bookmarkIndex = currentQuestionIndex;
+        //check if the question already featured in bookmarked
+        if (currentQuestionIndex in bookmarkedQuestions) {
+            const currentBookmark = document.getElementById(`bookmark-${currentQuestionIndex}`);
+            currentBookmark.remove();
+            markBtn.textContent = 'Mark';
+            delete bookmarkedQuestions[currentQuestionIndex];
+            console.log(bookmarkedQuestions);
+        }
+        //execute if the question is not in bookmark object
+        else {
+            console.log(' bookmarked')
+            markBtn.textContent = 'Unmark';
+            let devCards = document.querySelector(".mark-card");
+            let questionsmarked = document.createElement("div");
+            questionsmarked.textContent = `Question ${currentQuestionIndex + 1}`;
+            questionsmarked.addEventListener('click', () => {
+                updateExamData(bookmarkIndex)
+            })
+            questionsmarked.id = `bookmark-${currentQuestionIndex}`;
+
+            devCards.appendChild(questionsmarked);
+
+
+            bookmarkedQuestions = { ...bookmarkedQuestions, [currentQuestionIndex]: true };
+            console.log(bookmarkedQuestions)
+        }
+    });
+
+    // Function to update the button state based on current question
+    function updateMarkButtonState() {
+        if (currentQuestionIndex in bookmarkedQuestions) {
+            markBtn.textContent = 'Unmark';
+
+        } else {
+            markBtn.textContent = 'Mark';
+        }
+    }
+
+
+
 });
 
 // Toast function 
@@ -269,57 +301,3 @@ function TimeProgress() {
 TimeProgress();
 
 
-//Questions bookmark
-let markbtn = document.querySelectorAll(".exam-buttons button")[1];
-let questionsmarked = document.createElement("div");
-
-markbtn.addEventListener("click", function () {
-    //check if the question already featured in bookmarked
-    if(currentQuestionIndex in bookmarkedQuestions){
-        markBtn.textContent = 'Mark';
-        delete bookmarkedQuestions[currentQuestionIndex];
-        console.log(bookmarkedQuestions)
-    }
-    //execute if the question is not in bookmark object
-    else{
-        console.log(' bookmarked')
-        markBtn.textContent='Unmark';
-        bookmarkedQuestions = { ...bookmarkedQuestions, [currentQuestionIndex]:true };
-        console.log(bookmarkedQuestions)
-
-    }
-
-    // console.log(bookmarkedQuestions)
-    // if (markbtn.textContent === "Mark") {
-    //     questionsmarked.style.display = 'block';
-    //     markbtn.textContent = " Unmark"
-    //     let devCards = document.querySelector(".mark-card");
-    //     questionsmarked.textContent = `Question ${currentQuestionIndex + 1}`;
-    //     devCards.appendChild(questionsmarked);
-
-    // } else {
-    //     markbtn.textContent = "Mark"
-    //     questionsmarked.style.display = 'none';
-    // }
-
-});
-
-
-
-
-const markBtn = document.querySelector('.mark');
-markBtn.addEventListener('click', () => {
-    // console.log(`${currentQuestionIndex} is bookmarked`)
-})
-
-
-
-
-// Function to update the button state based on current question
-function updateMarkButtonState() {
-    if (currentQuestionIndex in bookmarkedQuestions) {
-        markBtn.textContent = 'Unmark';
-    } else {
-        markBtn.textContent = 'Mark';
-    }
-}
