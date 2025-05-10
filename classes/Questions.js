@@ -1,4 +1,3 @@
-
 export class Question {
     constructor(id, examId, questionText, options, correctAnswer, difficulty, points) {
         this.id = id;
@@ -26,9 +25,6 @@ export class Question {
     }
 }
 
-// const questions = await getAllSubjectQuestions('MATH202');
-// const arrClasses = questions.map(question => new Question(question.id, question.examId, question.questionText, question.options,
-//     question.correctAnswer, question.difficulty, question.points))
 
 
 
