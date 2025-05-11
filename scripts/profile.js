@@ -3,10 +3,12 @@ import { getCurrentUserDoc, getUserExamHistory } from "../services/firestore_que
 
 //get user ID from local storage
 const userID = localStorage.getItem('userId');
+console.log(userID)
 
 //fetch the user document from firestore
 const userData = await getCurrentUserDoc(userID);
-const userHistory = await getUserExamHistory(userID)
+const userHistory = await getUserExamHistory(userID);
+
 //Element selectors
 const userName = document.getElementById('userName');
 const userEmail = document.getElementById('userEmail');
@@ -15,6 +17,7 @@ const userRole = document.getElementById('userRole');
 const userImg = document.getElementById('userImg');
 const historyContainer = document.querySelector('.latest-activities');
 const logoutBtn = document.getElementsByClassName('logOut-btn')[0];
+const examSection = document.getElementsByClassName('profile-bottom')[0]
 
 //Update the text of elements with user information
 userName.innerText = userData.displayName;
@@ -22,13 +25,15 @@ userEmail.innerText = userData.email;
 userFullName.innerText = userData.displayName;
 userRole.innerText = userData.role;
 
-//conditionally changing profile image based on user role
+//conditionally changing profile content based on user role
 if (userData.role === 'teacher') {
     userImg.src = '../images/teacher.png'
-    console.log('teacher')
+    examSection.style.display='none'
 }
 if (userData.role === 'student') {
-    userImg.src = '../images/pupil.png'
+    userImg.src = '../images/pupil.png';
+    examSection.style.display='flex'
+
 }
 
 
