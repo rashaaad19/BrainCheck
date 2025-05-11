@@ -1,0 +1,39 @@
+@media screen and (max-width: 767px) {
+
+        .nav-m {
+            flex-direction: column;
+            align-items: center;
+
+        
+        }
+        .logo-system{
+            display: none;
+        }
+        .nav-section{
+           background-color: rgb(6, 6, 95);
+        }
+         .hero-logo{
+           display: none;
+        }
+        .shape2-logo{
+            display: none;
+        }
+        
+      
+ }
+
+
+ @media screen and (max-width: 880px) {
+   
+    .nov-list li  {
+        font-size: 14px;
+        color: white;
+        align-items: center;
+    }
+    .hero-logo{
+        display: none;
+    }  .nav-section{
+        background-color: rgb(6, 6, 95);
+     }
+
+}

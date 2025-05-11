@@ -1,11 +1,11 @@
 import { Question } from "../classes/Questions.js";
 import { getAllSubjectQuestions } from "../services/firestore_queries_service.js";
+import { createUserExamDoc } from "../services/firestore_service.js";
 
-    /* ================ TOAST FUNCTION ================ */
+/* ================ TOAST FUNCTION ================ */
 
-export function showToast() {
-    const toast = document.getElementById("exam-toast");
-
+export function showToast(toast) {
+console.log(toast)
     toast.classList.remove("hidden");
 
     setTimeout(() => {
@@ -14,7 +14,7 @@ export function showToast() {
 }
 
 
-    /* ================ DISPLAY EXAM DATA FUNCTION ================ */
+/* ================ DISPLAY EXAM DATA FUNCTION ================ */
 
 export const fetchExamData = async (id, selectedSubject) => {
     const questions = await getAllSubjectQuestions(id);
@@ -40,9 +40,9 @@ export const fetchExamData = async (id, selectedSubject) => {
 
 
 
-    /* ================ ANSWER SELECTION ================ */
+/* ================ ANSWER SELECTION ================ */
 
-export const radioAnswerTracker = (currentQuestionIndex,userScore,questionsData,answeredQuestions) => {
+export const radioAnswerTracker = (currentQuestionIndex, userScore, questionsData, answeredQuestions) => {
     let answerSelected = document.querySelector('.exam-form input[name="exam"]:checked');
     let answerSelectedTextContent = document.querySelector('.exam-form input[name="exam"]:checked + span');
     let currentQuestion = questionsData[currentQuestionIndex];
@@ -50,7 +50,7 @@ export const radioAnswerTracker = (currentQuestionIndex,userScore,questionsData,
     const isCorrect = currentQuestion.isCorrect(answerSelectedTextContent.textContent);
     const wasAnsweredBefore = (currentQuestionIndex in answeredQuestions);
     const prevAnswer = answeredQuestions[currentQuestionIndex]
-    const prevAnswerWasCorrect = wasAnsweredBefore && currentQuestion.isCorrect(prevAnswer)
+    const prevAnswerWasCorrect = wasAnsweredBefore && currentQuestion.isCorrect(prevAnswer);
 
     // Case 1: First time answering (and correct),  Add points
     if (!wasAnsweredBefore && isCorrect) {
@@ -64,14 +64,46 @@ export const radioAnswerTracker = (currentQuestionIndex,userScore,questionsData,
     else if (wasAnsweredBefore && !prevAnswerWasCorrect && isCorrect) {
         userScore += currentQuestion.points;
     }
+
+    console.log(userScore)
     //update the latest answer
-    answeredQuestions = {
-        ...answeredQuestions, [currentQuestionIndex]: answerSelectedTextContent
-            .textContent
-    };
+    answeredQuestions[currentQuestionIndex] = answerSelectedTextContent.textContent;
     //update session storage 
     sessionStorage.setItem(`question-${currentQuestionIndex}`, answerSelected.value);
 
+    //return the user score to keep it updated
+    return userScore;
 }
+
+
+
+/* ================ PROGRESS BAR FUNCTION ================ */
+
+export const timeProgress = (span,selectedSubject,userId, userScore) => {
+    
+    let width = 0;
+
+    let step = setInterval(async function () {
+        if (width >= 100) {
+            clearInterval(step);
+            const isPassing = selectedSubject.isPassing(userScore);
+            sessionStorage.setItem('current_score', userScore);
+            await createUserExamDoc(userId, selectedSubject, userScore, isPassing);
+            window.location.href = `/pages/result.html?subjectId=${selectedSubject.id}`
+
+        }
+
+        else {
+            width = width + .10;
+            span.style.width = width + "%";
+            if (width > 100) {
+                width = 100;
+            }
+        }
+    }, 300);
+}
+
+
+
 
 

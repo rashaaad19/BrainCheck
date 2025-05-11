@@ -7,7 +7,8 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  onAuthStateChanged
+  onAuthStateChanged,
+  signOut
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
 import {
@@ -53,5 +54,6 @@ export {
   getDoc,
   getDocs,
   onAuthStateChanged,
-  serverTimestamp
+  serverTimestamp,
+  signOut
 };

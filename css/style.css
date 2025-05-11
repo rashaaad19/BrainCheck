@@ -1214,5 +1214,25 @@ input[type="email"] {
         transform: translateY(-4px);
     }
 }
+.start{
+ padding: 9px;
+ border-radius: 5px;
+ background-color:#2d386d ;
+ color:#ffcc4c ;
+}
+.start:hover{
+    background-color: rgb(13, 13, 90);
+    color: #ecab07;
+    box-shadow: 1px 2px 3px 1px gray;
+}
+.courses{
+    background-color: rgb(0, 0, 0,.5);
+    
+    border-radius: 10px;
+}
+.courses:hover{
+    background-color: rgb(0, 0, 0,.0);
+  
+}
 
 /* end animation */

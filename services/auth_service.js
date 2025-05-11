@@ -1,4 +1,6 @@
-import { auth, createUserWithEmailAndPassword, db, collection, doc, setDoc, updateProfile, provider, signInWithPopup, getDoc, signInWithEmailAndPassword, onAuthStateChanged } from "../firebase.js";
+import { auth, createUserWithEmailAndPassword,updateProfile, provider, signInWithPopup, getDoc, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "../firebase.js";
+
+//Signup with email and password funciton
 export const userSignup = async (email, password, userName) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -11,38 +13,42 @@ export const userSignup = async (email, password, userName) => {
         return user;
     } catch (error) {
         console.error('Error during signup:', error);
-        throw error; 
+        throw error;
     }
 }
 
-export const userLogin=async(email, password)=>{
-  try{
-    const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      return user;
-  }
-  catch(error){
-    throw error; 
-}
-  
+
+//Login with email and password function
+export const userLogin = async (email, password) => {
+    try {
+        const userCredential = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+        const user = userCredential.user;
+        return user;
+    }
+    catch (error) {
+        throw error;
+    }
+
 }
 
+//Continue with google function
 export const createWithGoogle = async () => {
     try {
         const userCredential = await signInWithPopup(auth, provider);
         const user = userCredential.user;
         return user;
 
-            
+
     }
     catch (e) {
         console.log(e)
     }
 }
+
 
 //watch for auth changes, and returns a promise that resolve to the user id
 export const getCurrentUserId = () => {
@@ -57,3 +63,14 @@ export const getCurrentUserId = () => {
         });
     });
 };
+
+
+//Logout the user
+export const logout = async () => {
+    try {
+        await signOut(auth)
+    }
+    catch (e) {
+        throw new Error(e);
+    }
+}

@@ -8,19 +8,23 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
 
-    <title>BrainCheck</title>
+    <title>EXAM SYSTEM</title>
 </head>
 
 <body>
-    <form>
-        <div class="bbb">
-            <div class="con">
 
-                <img class="left_side" src="../images/shape-1.png" />
+    <div class="bbb">
+        <div class="con">
+
+            <img class="left_side" src="../images/shape-1.png" />
 
 
 
-            </div>
+        </div>
+
+        <form>
+
+
             <div class="form-container">
                 <h2>Add New Question</h2>
                 <div class="flex justify-between gap-2 items-center ">
@@ -111,10 +115,17 @@
 
             </div>
 
+        </form>
+        <div id="exam-toast" class="toast toast-bottom hidden">
+            <div class="alert alert-info">
+                <span></span>
+            </div>
         </div>
-    </form>
 
-    <script src="../scripts/teacher.js"></script>
+    </div>
+
+
+    <script type="module" src="../scripts/teacher.js"></script>
 
 
 </body>

@@ -1,3 +1,5 @@
+import { getCurrentUserId } from "../services/auth_service.js";
+
 // Handle clicks on restricted links
 document.addEventListener("DOMContentLoaded", () => {
     const restrictedLinks = document.querySelectorAll(".restricted");
@@ -10,3 +12,4 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // document.getElementById("authModal").checked = true;
+

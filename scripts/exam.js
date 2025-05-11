@@ -1,20 +1,36 @@
+//Class
 import { Exam } from "../classes/Exam.js";
-import { Question } from "../classes/Questions.js";
-import { getAllSubjectQuestions } from "../services/firestore_queries_service.js";
+//Firebase functions
 import { createUserExamDoc } from "../services/firestore_service.js";
-import { showInitialQuestions, updateExamData } from "../utilities/displayFunctions.js";
-import { fetchExamData, radioAnswerTracker, showToast } from "../utilities/functions.js";
+//utility functions
+import { showInitialQuestions, updateExamData, updateMarkButtonState } from "../utilities/displayFunctions.js";
+import { fetchExamData, radioAnswerTracker, showToast, timeProgress } from "../utilities/functions.js";
 
+//Variables
 let userScore = 0;
 let answeredQuestions = {};
 let bookmarkedQuestions = {};
+let currentQuestionIndex = 0;
+let nextButton, previousButton;
 
-const userId = localStorage.getItem('userId');
-//get subjectId from url
-const subjectId = new URLSearchParams(window.location.search).get('subjectId');
+//DOM ELEMENTS
+let span = document.querySelector(".time-progress span");
+const markBtn = document.querySelector('.mark');
 const radioInputs = document.querySelectorAll('input[type=radio]');
-//get the selected subject from local storage and assign it's details to new Exam instance
+const form = document.querySelector('.exam-form');
+const toast = document.getElementById("exam-toast");
+nextButton = document.querySelector(".exam-form .exam-buttons .next");
+previousButton = document.querySelector(".exam-form .exam-buttons .prev");
+
+
+
+//Getting data from URL and storage
+const userId = localStorage.getItem('userId');
 const subjectData = JSON.parse(localStorage.getItem('selectedSubjectData'));
+const subjectId = new URLSearchParams(window.location.search).get('subjectId');
+
+
+//Assign new Exam instances
 var selectedSubject = new Exam(
     subjectData.id,
     subjectData.subjectName,
@@ -24,14 +40,16 @@ var selectedSubject = new Exam(
 )
 
 
-let currentQuestionIndex = 0;
-let nextButton, previousButton;
 
-//fetch exam data when the page opens
+/* ================ FETCHING DATA ON LOAD ================ */
 window.addEventListener('load', async () => {
     //fetch questions for selected Subject
     var questionsArr = await fetchExamData(subjectId, selectedSubject);
+    //fetch questions for selected Subject
+    var questionsArr = await fetchExamData(subjectId, selectedSubject);
     let questionsData = selectedSubject.questions;
+
+
 
 
     const { examName,
@@ -44,14 +62,12 @@ window.addEventListener('load', async () => {
     /* ================ RADIO BUTTON HANDLER ================ */
 
     radioInputs.forEach((radio) => {
-        radio.addEventListener('change', () => radioAnswerTracker(currentQuestionIndex, userScore, questionsData, answeredQuestions))
+        //store the user score to keep it updated
+        radio.addEventListener('change', () => userScore = radioAnswerTracker(currentQuestionIndex, userScore, questionsData, answeredQuestions))
     })
 
 
-    /* ================ FUNCTIONS FOR EXAM NAVIGATION ================ */
-
-    nextButton = document.querySelector(".exam-form .exam-buttons .next");
-    previousButton = document.querySelector(".exam-form .exam-buttons .prev");
+    /* ================ FUNCTIONS FOR NEXT NAVIGATION ================ */
 
     nextButton.addEventListener("click", (e) => {
         //make previous button enabled again
@@ -61,22 +77,22 @@ window.addEventListener('load', async () => {
 
         //Show toast if no answer is selected
         if (!answerSelected) {
-            showToast();
+            showToast(toast);
             return;
         }
 
         //increment the current question pointer
         currentQuestionIndex++;
-        updateMarkButtonState();
+        updateMarkButtonState(currentQuestionIndex, bookmarkedQuestions, markBtn);
 
         //next question logic
         if (currentQuestionIndex < questionsData.length) {
             //change the content of the exam 
             updateExamData(currentQuestionIndex, questionNumber, questionTitle, questionsData, answerTextFromHtml, answerValues)
+            updateExamData(currentQuestionIndex, questionNumber, questionTitle, questionsData, answerTextFromHtml, answerValues)
             // clear selected answer
             document.querySelectorAll('.exam-form input[name="exam"]').forEach(input => input.checked = false);
 
-            // Restore the saved answer for this question
             //Search for an answer for the question with this index
             let savedAnswer = sessionStorage.getItem(`question-${currentQuestionIndex}`);
             if (savedAnswer) {
@@ -94,6 +110,8 @@ window.addEventListener('load', async () => {
     });
 
 
+    /* ================ FUNCTIONS FOR PREVIOUS NAVIGATION ================ */
+
     previousButton.addEventListener("click", (e) => {
         let answerSelectedTextContent = document.querySelector('.exam-form input[name="exam"]:checked + span');
         e.preventDefault();
@@ -103,7 +121,7 @@ window.addEventListener('load', async () => {
 
         if (currentQuestionIndex > 0) {
             currentQuestionIndex--;
-            updateMarkButtonState();
+            updateMarkButtonState(currentQuestionIndex, bookmarkedQuestions, markBtn);
             updateExamData(currentQuestionIndex, questionNumber, questionTitle, questionsData, answerTextFromHtml, answerValues)
             // clear selected answer
             document.querySelectorAll('.exam-form input[name="exam"]').forEach(input => input.checked = false);
@@ -121,8 +139,7 @@ window.addEventListener('load', async () => {
         }
     });
 
-    //Questions bookmark
-    const markBtn = document.querySelector('.mark');
+    /* ================ BOOKMARK FUNCTION ================ */
 
     markBtn.addEventListener("click", function () {
         const bookmarkIndex = currentQuestionIndex;
@@ -142,9 +159,16 @@ window.addEventListener('load', async () => {
             let questionsmarked = document.createElement("div");
             questionsmarked.textContent = `Question ${currentQuestionIndex + 1}`;
 
-            // navigate to the selected question
+
+
+
+
+
+
+            /* ================ BOOKMARKED ELEMENT FUNCTION ================ */
             questionsmarked.addEventListener('click', () => {
                 currentQuestionIndex = bookmarkIndex; // Update the current index
+                updateExamData(bookmarkIndex, questionNumber, questionTitle, questionsData, answerTextFromHtml, answerValues)
                 updateExamData(bookmarkIndex, questionNumber, questionTitle, questionsData, answerTextFromHtml, answerValues)
 
                 // Clear previous selection
@@ -157,7 +181,7 @@ window.addEventListener('load', async () => {
                 }
 
                 // Update button states
-                updateMarkButtonState();
+                updateMarkButtonState(currentQuestionIndex, bookmarkedQuestions, markBtn);
 
                 // Handle prev/next button disabling
                 if (bookmarkIndex === 0) {
@@ -174,37 +198,24 @@ window.addEventListener('load', async () => {
             questionsmarked.id = `bookmark-${currentQuestionIndex}`;
 
             devCards.appendChild(questionsmarked);
-
-
             bookmarkedQuestions = { ...bookmarkedQuestions, [currentQuestionIndex]: true };
             console.log(bookmarkedQuestions)
         }
     });
 
-    // Function to update the button state based on current question
-    function updateMarkButtonState() {
-        if (currentQuestionIndex in bookmarkedQuestions) {
-            markBtn.textContent = 'Unmark';
-
-        } else {
-            markBtn.textContent = 'Mark';
-        }
-    }
-
 
 
 });
 
-// Toast function 
 
 
 
-const form = document.querySelector('.exam-form');
 
-//submit handler
+/* ================ SUBMIT HANDLER ================ */
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const isPassing = selectedSubject.isPassing(userScore);
+    console.log(isPassing, userScore)
     sessionStorage.setItem('current_score', userScore);
     await createUserExamDoc(userId, selectedSubject, userScore, isPassing);
     //clears the session storage
@@ -218,30 +229,7 @@ form.addEventListener("submit", async (e) => {
 })
 
 
-//timer handler
-let span = document.querySelector(".time-progress span");
-function TimeProgress() {
-    let width = 0;
-
-    let step = setInterval(async function () {
-        if (width >= 100) {
-            clearInterval(step);
-            const isPassing = selectedSubject.isPassing(userScore);
-            sessionStorage.setItem('current_score', userScore);
-            await createUserExamDoc(userId, selectedSubject, userScore, isPassing);
-            window.location.href = `/pages/result.html?subjectId=${selectedSubject.id}`
-
-        }
-
-        else {
-            width = width + .10;
-            span.style.width = width + "%";
-            if (width > 100) {
-                width = 100;
-            }
-        }
-    }, 500);
-}
-TimeProgress();
+/* ================ PROGRESS HANDLER ================ */
+timeProgress(span, selectedSubject, userId, userScore);
 
 

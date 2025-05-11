@@ -1,6 +1,7 @@
+/* ================ START EXAM INFO =================== */
+
 export const showInitialQuestions = (selectedSubject) => {
     let questionsData = selectedSubject.questions
-    /* ================ START EXAM INFO =================== */
     let examName = document.querySelector('.exam-heading .exam-name')
     examName.textContent = selectedSubject.subjectName;
 
@@ -20,15 +21,38 @@ export const showInitialQuestions = (selectedSubject) => {
 
 }
 
+/* ================ FUNCTIONS FOR UPDATING EXAM ================ */
 
-export const updateExamData = (currentQuestionIndex,questionNumber,questionTitle,questionsData,answerTextFromHtml,answerValues) => {
+export const updateExamData = (currentQuestionIndex, questionNumber, questionTitle, questionsData, answerTextFromHtml, answerValues) => {
     questionNumber.textContent = `Question ${currentQuestionIndex + 1} of ${questionsData.length}`;
     //access the next question in the array
     questionTitle.textContent = questionsData[currentQuestionIndex].questionText;
     //access the answers to the next question in the array
-     answerValues = Object.values(questionsData[currentQuestionIndex].options);
+    answerValues = Object.values(questionsData[currentQuestionIndex].options);
     answerTextFromHtml.forEach((item, index) => {
         item.textContent = answerValues[index];
     });
 
 }
+
+
+
+/* ================ FUNCTIONS FOR UPDATING BUTTON STATES ================ */
+
+export const updateMarkButtonState = (currentQuestionIndex, bookmarkedQuestions, markBtn) => {
+    if (currentQuestionIndex in bookmarkedQuestions) {
+        markBtn.textContent = 'Unmark';
+
+    } else {
+        markBtn.textContent = 'Mark';
+    }
+}
+
+
+
+
+
+
+
+
+
