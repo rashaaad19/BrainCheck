@@ -45,8 +45,19 @@ var selectedSubject = new Exam(
 window.addEventListener('load', async () => {
     //fetch questions for selected Subject
     var questionsArr = await fetchExamData(subjectId, selectedSubject);
+    //fetch questions for selected Subject
+    var questionsArr = await fetchExamData(subjectId, selectedSubject);
     let questionsData = selectedSubject.questions;
 
+
+    const { examName,
+        questionNumber,
+        questionTitle,
+        answerValues,
+        answerTextFromHtml
+    } = showInitialQuestions(selectedSubject)
+
+    /* ================ RADIO BUTTON HANDLER ================ */
 
     const { examName,
         questionNumber,
@@ -84,6 +95,7 @@ window.addEventListener('load', async () => {
         //next question logic
         if (currentQuestionIndex < questionsData.length) {
             //change the content of the exam 
+            updateExamData(currentQuestionIndex, questionNumber, questionTitle, questionsData, answerTextFromHtml, answerValues)
             updateExamData(currentQuestionIndex, questionNumber, questionTitle, questionsData, answerTextFromHtml, answerValues)
             // clear selected answer
             document.querySelectorAll('.exam-form input[name="exam"]').forEach(input => input.checked = false);
@@ -163,6 +175,7 @@ window.addEventListener('load', async () => {
             /* ================ BOOKMARKED ELEMENT FUNCTION ================ */
             questionsmarked.addEventListener('click', () => {
                 currentQuestionIndex = bookmarkIndex; // Update the current index
+                updateExamData(bookmarkIndex, questionNumber, questionTitle, questionsData, answerTextFromHtml, answerValues)
                 updateExamData(bookmarkIndex, questionNumber, questionTitle, questionsData, answerTextFromHtml, answerValues)
 
                 // Clear previous selection
