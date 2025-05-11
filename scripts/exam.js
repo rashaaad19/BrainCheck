@@ -50,14 +50,7 @@ window.addEventListener('load', async () => {
     let questionsData = selectedSubject.questions;
 
 
-    const { examName,
-        questionNumber,
-        questionTitle,
-        answerValues,
-        answerTextFromHtml
-    } = showInitialQuestions(selectedSubject)
 
-    /* ================ RADIO BUTTON HANDLER ================ */
 
     const { examName,
         questionNumber,
