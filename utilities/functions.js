@@ -4,9 +4,8 @@ import { createUserExamDoc } from "../services/firestore_service.js";
 
 /* ================ TOAST FUNCTION ================ */
 
-export function showToast() {
-    const toast = document.getElementById("exam-toast");
-
+export function showToast(toast) {
+console.log(toast)
     toast.classList.remove("hidden");
 
     setTimeout(() => {

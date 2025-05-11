@@ -1,3 +1,10 @@
+:root {
+    --primary-yellow-color: #ffb700;
+    --secondary-blue-color: #0b1950;
+    --question-card-color: #f3f4f6;
+}
+
+
 .bbb{
     background-image: url(../images/body-bg.jpg);
     background-size: cover;
@@ -127,3 +134,22 @@ svg.active {
     }
 }
 
+
+#exam-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 88888;
+
+}
+
+#exam-toast div {
+    background-color: var(--primary-yellow-color);
+    color: var(--secondary-blue-color);
+    font-weight: 500;
+    border: none;
+}
+
+.hidden{
+    display: none;
+}

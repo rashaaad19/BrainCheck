@@ -18,8 +18,10 @@ let span = document.querySelector(".time-progress span");
 const markBtn = document.querySelector('.mark');
 const radioInputs = document.querySelectorAll('input[type=radio]');
 const form = document.querySelector('.exam-form');
+const toast = document.getElementById("exam-toast");
 nextButton = document.querySelector(".exam-form .exam-buttons .next");
 previousButton = document.querySelector(".exam-form .exam-buttons .prev");
+
 
 
 //Getting data from URL and storage
@@ -71,7 +73,7 @@ window.addEventListener('load', async () => {
 
         //Show toast if no answer is selected
         if (!answerSelected) {
-            showToast();
+            showToast(toast);
             return;
         }
 

@@ -1,14 +1,16 @@
 import { getAllSubjectQuestions, addNewQuestion } from "../services/firestore_queries_service.js";
+import { showToast } from "../utilities/functions.js";
 
 let params = new URLSearchParams(window.location.search);
 let Sid = params.get("subjectId");
-console.log(Sid);
-
 let questionadd = await getAllSubjectQuestions(Sid);
 let idnumber = questionadd.length;
 let correctAnswer = "";
 
 let A = document.querySelectorAll("svg");
+const toast = document.getElementById("exam-toast");
+const toastSpan = document.querySelector('#exam-toast .alert span');
+
 
 A.forEach((svg, index) => {
   svg.addEventListener("click", () => {
@@ -16,8 +18,8 @@ A.forEach((svg, index) => {
     svg.classList.add("active");
 
     let optionInputs = document.querySelectorAll(".answer input");
-    correctAnswer = optionInputs[index].value ;
-    console.log( correctAnswer);
+    correctAnswer = optionInputs[index].value;
+    console.log(correctAnswer);
   });
 });
 
@@ -40,7 +42,8 @@ document.querySelector("form").addEventListener("submit", async function (e) {
   let examId = Sid;
 
   if (!correctAnswer) {
-    alert("Please select the correct answer.");
+    showToast(toast);
+    toastSpan.textContent = 'Please select the correct answer value'
     return;
   }
 
@@ -54,7 +57,7 @@ document.querySelector("form").addEventListener("submit", async function (e) {
     questionText,
   };
 
-   addNewQuestion(questionObject);
+  addNewQuestion(questionObject);
 
   optionInputs.forEach(input => input.value = "");
   document.getElementById("points").value = "";
@@ -63,19 +66,11 @@ document.querySelector("form").addEventListener("submit", async function (e) {
   A.forEach((el) => el.classList.remove("active"));
   correctAnswer = "";
   idnumber++;
+
+
+  //Indicate success toaster
+  showToast(toast);
+  toastSpan.textContent = 'Done! The question has been added!'
+
 });
 
-// let question={
-//   examId:'CHEM205',
-//   difficulty:"easy",
-//   id:"BIO101_Q12",
-//   options:{
-//     a:'Bla',
-//     b:'Bla Bla',
-//     c:'Bla Bla Bla',
-//     d:'Bla Bla Bla Bla'
-//   },
-//   points:3,
-//   questionText:'This is question text'
-
-// }
