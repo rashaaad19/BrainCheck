@@ -25,15 +25,15 @@
         <!-- start exam card -->
 
         <!-- exam-main-card -->
-        <div class="exam-main-card" >
+        <div class="exam-main-card">
 
             <!-- time progress bar -->
-            <div class="time-progress"><span></span></div>
+            <div class="time-progress"><span style="display: inline-block; width: 0%; "></span></div>
 
             <!-- exam title  -->
             <div class="exam-heading">
-                <div class="user-name">Hello Ahmed</div>
-                <div class="exam-name">English Exam</div>
+                <div class="user-name"></div>
+                <div class="exam-name"></div>
             </div>
 
             <div class="que-card">
@@ -41,36 +41,36 @@
                 <!-- start the form -->
                 <form action="#" class="exam-form">
                     <div class="question-num">Question 1</div>
-                    <p class="question-title">What does the &lt;a&gt; tag in HTML stand for?</p>
+                    <p class="question-title"></p>
 
                     <label>
-                        <input type="radio" name="exam" value="option1">
-                        <span>&lt;a&gt; stands for "alignment" used to align text.</span>
+                        <input type="radio" name="exam" value="option-0">
+                        <span></span>
                     </label>
 
                     <!-- <br> -->
                     <label>
-                        <input type="radio" name="exam" value="option2">
-                        <span> &lt;a&gt; is used to insert an image into the page.</span>
+                        <input type="radio" name="exam" value="option-1">
+                        <span> </span>
                     </label>
                     <!-- <br> -->
 
                     <label>
-                        <input type="radio" name="exam" value="option3">
-                        <span>&lt;a&gt; is used to create a link to another page or website.</span>
+                        <input type="radio" name="exam" value="option-2">
+                        <span></span>
                     </label>
                     <!-- <br> -->
 
                     <label>
-                        <input type="radio" name="exam" value="option4">
-                        <span> &lt;a&gt; is a heading tag used for titles.</span>
+                        <input type="radio" name="exam" value="option-3">
+                        <span></span>
                     </label>
                     <!-- <br> -->
                     <!-- <br> -->
                     <div class="exam-buttons">
-                        <button>Previous</button>
-                        <button>Mark</button>
-                        <button>Next</button>
+                        <button type="button" class="prev disabled-btn" disabled="true">Previous</button>
+                        <button type="button" class="mark">Mark</button>
+                        <button type="button" class="next">Next</button>
                     </div>
                     <button type="submit">finish</button>
                 </form>
@@ -78,9 +78,9 @@
                 <!-- mark div -->
 
                 <div class="mark-card">
-                    <div>Question 1</div>
+                    <!-- <div>Question 1</div>
                     <div>Question 2</div>
-                    <div>Question 3</div>
+                    <div>Question 3</div> -->
 
                 </div>
             </div>
@@ -88,10 +88,19 @@
         </div>
 
 
+        <div id="exam-toast" class="toast toast-bottom hidden">
+            <div class="alert alert-info">
+                <span>Please select an answer before proceeding.</span>
+            </div>
+        </div>
+
+
     </div>
     <!-- end exam card -->
 
-    <script src="../scripts/exam.js"></script>
+    <script type="module" type="module" src="/scripts/exam.js"></script>
+    <!-- <script src="../classes/functions.js"></script> -->
+    
 </body>
 
 </html>

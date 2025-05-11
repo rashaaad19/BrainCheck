@@ -1,0 +1,92 @@
+@font-face {
+    font-family: "landing-page-font";
+    src: url("../fonts/landing-page/Michroma/Michroma-Regular.ttf");
+}
+
+:root {
+    --primary-yellow-color: #ffb700;
+    --secondary-blue-color: #0b1950;
+}
+
+.result-container {
+    background-image: url("../images/body-bg.jpg");
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.result-container::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.result-container .show-result {
+    background-color: white;
+    position: relative;
+    z-index: 2;
+    width: 500px;
+    /* height: 600px; */
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+    text-align: center;
+    border: 1px solid var(--primary-yellow-color);
+    padding-bottom: 20px;
+    margin: 20px;
+
+}
+
+.result-container .show-result .successImg {
+    width: 200px;
+}
+
+.result-container .show-result .img-container {
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.result-container .show-result .userName {
+    background-color: var(--secondary-blue-color);
+    color: var(--primary-yellow-color);
+    padding: 8px;
+    font-size: 20px;
+    font-family: "landing-page-font";
+    margin-bottom: 20px;
+}
+
+.result-container .show-result .result-description {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    color: var(--secondary-blue-color);
+    font-weight: bold;
+
+
+}
+
+.result-container .show-result .result-description span.result-score {
+    margin-left: 10px;
+    font-size: 70px;
+    background-color: #0b1950;
+    color: var(--primary-yellow-color);
+    padding: 10px;
+    border-radius: 50%;
+    border: 1px solid var(--primary-yellow-color);
+}
+
+@media screen and (max-width: 400px) {
+    .result-container .show-result .result-description span.result-score{
+        font-size: 40px;
+    }
+}

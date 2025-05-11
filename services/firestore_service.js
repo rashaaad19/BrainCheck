@@ -1,14 +1,19 @@
-import { collection, db, doc, getDoc, setDoc } from "../firebase.js"
+import { addDoc, collection, db, doc, getDoc, serverTimestamp, setDoc } from "../firebase.js"
 
 
 
 export const createUser = async (userData) => {
     console.log(userData)
     try {
-        const docRef = doc(db, "users", userData.uid);
+        const docRef = doc(db, "users", userData.id);
         const data = await setDoc(docRef, {
             email: userData.email,
-            displayName: userData.displayName
+            displayName: userData.name,
+            role:userData.role,
+            exams:userData.exams,
+            id:userData.id,
+            createdAt:serverTimestamp(),
+            
         });
         return data;
     } catch (e) {
@@ -66,3 +71,23 @@ export const createQuestionCollection = async (questions, subjectID) => {
 
 }
 
+
+export const createUserExamDoc=async(userId,subjectData,score,isPassing)=>{
+try{
+    const docRef = collection(db,'exam-history');
+    const data = await addDoc(docRef,{
+        uid:userId,
+        subjectName:subjectData.subjectName,
+        description:subjectData.description,
+        passingGrade:subjectData.passingGrade,
+        subjectId : subjectData.id,
+        userScore:score,
+        pass:isPassing,
+        createdAt:serverTimestamp()
+
+    })
+}
+catch(e){
+    throw new Error(e)
+}
+}
