@@ -1,19 +1,20 @@
+import { logout } from "../services/auth_service.js";
 import { getCurrentUserDoc, getUserExamHistory } from "../services/firestore_queries_service.js";
 
 //get user ID from local storage
 const userID = localStorage.getItem('userId');
+
 //fetch the user document from firestore
 const userData = await getCurrentUserDoc(userID);
 const userHistory = await getUserExamHistory(userID)
-console.log(userData)
-const historyContainer = document.querySelector('.latest-activities');
-
 //Element selectors
 const userName = document.getElementById('userName');
 const userEmail = document.getElementById('userEmail');
 const userFullName = document.getElementById('userFullName');
 const userRole = document.getElementById('userRole');
 const userImg = document.getElementById('userImg');
+const historyContainer = document.querySelector('.latest-activities');
+const logoutBtn = document.getElementsByClassName('logOut-btn')[0];
 
 //Update the text of elements with user information
 userName.innerText = userData.displayName;
@@ -98,3 +99,11 @@ if (userHistory) {
 
     });
 }
+
+
+
+//handle log out btn click
+logoutBtn.addEventListener('click',()=>{
+  logout();
+  window.location.href = `/`;
+})

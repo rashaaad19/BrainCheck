@@ -1,4 +1,3 @@
-import { getAllSubjectsData } from "../services/firestore_queries_service.js";
 export class Exam {
   constructor(
     id,
@@ -37,9 +36,3 @@ export class Exam {
   }
 }
 
-// const subjects = await getAllSubjectsData();
-// const subjectClasses = subjects.map(item => new Exam(item.id, item.subjectName, item.duration, item.description, item.passingGrade));
-
-// console.log(subjectClasses)
-// console.log(subjectClasses[0].isPassing(40))
-// console.log(subjectClasses[2].getDurationHours())

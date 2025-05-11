@@ -1,4 +1,4 @@
-import { auth, createUserWithEmailAndPassword, db, collection, doc, setDoc, updateProfile, provider, signInWithPopup, getDoc, signInWithEmailAndPassword, onAuthStateChanged } from "../firebase.js";
+import { auth, createUserWithEmailAndPassword, db, collection, doc, setDoc, updateProfile, provider, signInWithPopup, getDoc, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "../firebase.js";
 export const userSignup = async (email, password, userName) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -11,24 +11,24 @@ export const userSignup = async (email, password, userName) => {
         return user;
     } catch (error) {
         console.error('Error during signup:', error);
-        throw error; 
+        throw error;
     }
 }
 
-export const userLogin=async(email, password)=>{
-  try{
-    const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      return user;
-  }
-  catch(error){
-    throw error; 
-}
-  
+export const userLogin = async (email, password) => {
+    try {
+        const userCredential = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+        const user = userCredential.user;
+        return user;
+    }
+    catch (error) {
+        throw error;
+    }
+
 }
 
 export const createWithGoogle = async () => {
@@ -37,7 +37,7 @@ export const createWithGoogle = async () => {
         const user = userCredential.user;
         return user;
 
-            
+
     }
     catch (e) {
         console.log(e)
@@ -57,3 +57,15 @@ export const getCurrentUserId = () => {
         });
     });
 };
+
+
+//log out the user
+
+export const logout = async () => {
+    try {
+        await signOut(auth)
+    }
+    catch (e) {
+        throw new Error(e);
+    }
+}

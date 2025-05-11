@@ -1,17 +1,17 @@
 import { Exam } from "../classes/Exam.js";
+import { logout } from "../services/auth_service.js";
 import {
   getAllSubjectsData,
   getCurrentUserDoc,
 } from "../services/firestore_queries_service.js";
 
-const container = document.getElementsByClassName("subjects-container")[0];
+const logoutBtn = document.getElementsByClassName('logOut-btn')[0];
 const userId = localStorage.getItem("userId");
-const currentUser = await getCurrentUserDoc(userId);
-console.log("Home js");
-//fetch subjects data and assign each subject as Exam instance
-const subjects = await getAllSubjectsData();
-console.log(subjects);
 
+const currentUser = await getCurrentUserDoc(userId);
+const subjects = await getAllSubjectsData();
+
+//assign each subject to Exam class
 const subjectClasses = subjects.map(
   (item) =>
     new Exam(
@@ -23,7 +23,7 @@ const subjectClasses = subjects.map(
       item.img
     )
 );
-console.log(subjectClasses);
+
 const subjectButtonHandler = async (id) => {
   //find the selected class item based on user click
   const selectedSubject = subjectClasses.find((subject) => subject.id === id);
@@ -78,3 +78,10 @@ subjectClasses.map((subject) => {
 
   container.appendChild(card);
 });
+
+
+//handle log out btn click
+logoutBtn.addEventListener('click',()=>{
+  logout();
+  window.location.href = `/`;
+})
