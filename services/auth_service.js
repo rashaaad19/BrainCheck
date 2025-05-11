@@ -1,4 +1,6 @@
-import { auth, createUserWithEmailAndPassword, db, collection, doc, setDoc, updateProfile, provider, signInWithPopup, getDoc, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "../firebase.js";
+import { auth, createUserWithEmailAndPassword,updateProfile, provider, signInWithPopup, getDoc, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "../firebase.js";
+
+//Signup with email and password funciton
 export const userSignup = async (email, password, userName) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -15,6 +17,8 @@ export const userSignup = async (email, password, userName) => {
     }
 }
 
+
+//Login with email and password function
 export const userLogin = async (email, password) => {
     try {
         const userCredential = await signInWithEmailAndPassword(
@@ -31,6 +35,7 @@ export const userLogin = async (email, password) => {
 
 }
 
+//Continue with google function
 export const createWithGoogle = async () => {
     try {
         const userCredential = await signInWithPopup(auth, provider);
@@ -43,6 +48,7 @@ export const createWithGoogle = async () => {
         console.log(e)
     }
 }
+
 
 //watch for auth changes, and returns a promise that resolve to the user id
 export const getCurrentUserId = () => {
@@ -59,8 +65,7 @@ export const getCurrentUserId = () => {
 };
 
 
-//log out the user
-
+//Logout the user
 export const logout = async () => {
     try {
         await signOut(auth)

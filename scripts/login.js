@@ -6,7 +6,7 @@ const passwordInput = document.getElementById('password');
 const googleButton = document.getElementById("googleAuth");
 
 // fix custom validity glitch
-passwordInput.addEventListener('input',()=>{
+passwordInput.addEventListener('input', () => {
   passwordInput.setCustomValidity('');
 })
 
@@ -47,14 +47,26 @@ googleButton.addEventListener("click", async () => {
     console.log("created");
 
     if (existingStatus === false) {
-      const userDoc = await createUser(userCredential);
-      console.log("Doc Saved!", userDoc);
-      location.replace("/pages/home.html");
+      //create new user document for first time users
+      const userData = {
+        name: userCredential.displayName,
+        email: userCredential.email,
+        id: userCredential.uid,
+        role: 'student',
+        exams: []
+      }
+      const userDoc = await createUser(userData);
+      console.log('Doc Saved!', userDoc)
+      location.replace('/pages/home.html')
+
     }
     if (existingStatus === true) {
       console.log("User Already exists, no need for new docs");
       location.replace("/pages/home.html");
     }
+
+    localStorage.setItem('userId', userCredential.uid);
+
   } catch (e) {
     console.log(e);
   }

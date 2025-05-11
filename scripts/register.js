@@ -39,14 +39,14 @@ form.addEventListener("submit", async (event) => {
             email: userCredential.email,
             id: userCredential.uid,
             role: userRole,
-            exams:[]
+            exams: []
         }
         console.log(userData)
         localStorage.setItem('userId', userData.id);
         console.log("User signed up:", userCredential);
         const userDoc = await createUser(userData);
         console.log('Doc Saved!', userDoc)
-        location.replace('/pages/login.html')   
+        location.replace('/pages/login.html')
     } catch (e) {
         const errorMessage = e.message;
         const errorCode = e.code
@@ -65,8 +65,17 @@ googleButton.addEventListener('click', async () => {
     try {
         const userCredential = await createWithGoogle();
         const existingStatus = await checkUserDoc(userCredential);
+
         if (existingStatus === false) {
-            const userDoc = await createUser(userCredential);
+            //create new user document for first time users
+            const userData = {
+                name: userCredential.displayName,
+                email: userCredential.email,
+                id: userCredential.uid,
+                role: 'student',
+                exams: []
+            }
+            const userDoc = await createUser(userData);
             console.log('Doc Saved!', userDoc)
             location.replace('/pages/home.html')
 
@@ -75,6 +84,9 @@ googleButton.addEventListener('click', async () => {
             console.log('User Already exists, no need for new docs')
             location.replace('/pages/home.html')
         }
+
+        localStorage.setItem('userId', userCredential.uid);
+
 
     }
     catch (e) {

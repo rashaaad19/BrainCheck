@@ -103,7 +103,8 @@ if (userHistory) {
 
 
 //handle log out btn click
-logoutBtn.addEventListener('click',()=>{
-  logout();
-  window.location.href = `/`;
+logoutBtn.addEventListener('click', () => {
+    logout();
+    localStorage.removeItem('userId');
+    window.location.href = `/`;
 })

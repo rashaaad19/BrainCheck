@@ -40,7 +40,6 @@ const subjectButtonHandler = async (id) => {
 //courses based on firestore
 subjectClasses.map((subject) => {
   const container = document.querySelector(".course");
-
   const card = document.createElement("div");
   card.className =
     "subjects-container  flex flex-col justify-between card bg-white p-relative rad-10 p-10 gap-3";
@@ -55,7 +54,6 @@ subjectClasses.map((subject) => {
    <div class="courses flex flex-col items-start p-10 min-h-[150px] m-0">
      <h3 class=" no fw-600 text-xl text-start min-h-10" style='color: rgb(0, 0, 163)' >${subject.subjectName}</h3>
       <h3 class=" no text-xs line-1-6  "  style="color:white; padding-top:7px ">${subject.description}</h3>
-   
    </div>
   
  
@@ -69,7 +67,14 @@ subjectClasses.map((subject) => {
   const startbtn = document.createElement("button");
   startbtn.className = " start ";
 
+if(currentUser.role==='teacher'){
+  startbtn.innerText = "Add Questions";
+}
+
+if(currentUser.role ==='student'){
   startbtn.innerText = "Start Exam";
+
+}
 
   startbtn.addEventListener("click", () => subjectButtonHandler(subject.id));
 
@@ -83,5 +88,6 @@ subjectClasses.map((subject) => {
 //handle log out btn click
 logoutBtn.addEventListener('click',()=>{
   logout();
+  localStorage.removeItem('userId');
   window.location.href = `/`;
 })
