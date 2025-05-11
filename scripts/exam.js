@@ -1,26 +1,34 @@
+//Class
 import { Exam } from "../classes/Exam.js";
-import { Question } from "../classes/Questions.js";
-import { getAllSubjectQuestions } from "../services/firestore_queries_service.js";
+//Firebase functions
 import { createUserExamDoc } from "../services/firestore_service.js";
+//utility functions
 import { showInitialQuestions, updateExamData, updateMarkButtonState } from "../utilities/displayFunctions.js";
 import { fetchExamData, radioAnswerTracker, showToast, timeProgress } from "../utilities/functions.js";
 
+//Variables
 let userScore = 0;
 let answeredQuestions = {};
 let bookmarkedQuestions = {};
+let currentQuestionIndex = 0;
+let nextButton, previousButton;
 
+//DOM ELEMENTS
 let span = document.querySelector(".time-progress span");
 const markBtn = document.querySelector('.mark');
 const radioInputs = document.querySelectorAll('input[type=radio]');
 const form = document.querySelector('.exam-form');
+nextButton = document.querySelector(".exam-form .exam-buttons .next");
+previousButton = document.querySelector(".exam-form .exam-buttons .prev");
 
 
-
+//Getting data from URL and storage
 const userId = localStorage.getItem('userId');
-//get subjectId from url
-const subjectId = new URLSearchParams(window.location.search).get('subjectId');
-//get the selected subject from local storage and assign it's details to new Exam instance
 const subjectData = JSON.parse(localStorage.getItem('selectedSubjectData'));
+const subjectId = new URLSearchParams(window.location.search).get('subjectId');
+
+
+//Assign new Exam instances
 var selectedSubject = new Exam(
     subjectData.id,
     subjectData.subjectName,
@@ -30,10 +38,8 @@ var selectedSubject = new Exam(
 )
 
 
-let currentQuestionIndex = 0;
-let nextButton, previousButton;
 
-//fetch exam data when the page opens
+/* ================ FETCHING DATA ON LOAD ================ */
 window.addEventListener('load', async () => {
     //fetch questions for selected Subject
     var questionsArr = await fetchExamData(subjectId, selectedSubject);
@@ -56,9 +62,6 @@ window.addEventListener('load', async () => {
 
 
     /* ================ FUNCTIONS FOR NEXT NAVIGATION ================ */
-
-    nextButton = document.querySelector(".exam-form .exam-buttons .next");
-    previousButton = document.querySelector(".exam-form .exam-buttons .prev");
 
     nextButton.addEventListener("click", (e) => {
         //make previous button enabled again
@@ -83,7 +86,6 @@ window.addEventListener('load', async () => {
             // clear selected answer
             document.querySelectorAll('.exam-form input[name="exam"]').forEach(input => input.checked = false);
 
-            // Restore the saved answer for this question
             //Search for an answer for the question with this index
             let savedAnswer = sessionStorage.getItem(`question-${currentQuestionIndex}`);
             if (savedAnswer) {
@@ -101,7 +103,7 @@ window.addEventListener('load', async () => {
     });
 
 
-        /* ================ FUNCTIONS FOR PREVIOUS NAVIGATION ================ */
+    /* ================ FUNCTIONS FOR PREVIOUS NAVIGATION ================ */
 
     previousButton.addEventListener("click", (e) => {
         let answerSelectedTextContent = document.querySelector('.exam-form input[name="exam"]:checked + span');
@@ -130,7 +132,7 @@ window.addEventListener('load', async () => {
         }
     });
 
-    //Questions bookmark
+    /* ================ BOOKMARK FUNCTION ================ */
 
     markBtn.addEventListener("click", function () {
         const bookmarkIndex = currentQuestionIndex;
@@ -150,7 +152,13 @@ window.addEventListener('load', async () => {
             let questionsmarked = document.createElement("div");
             questionsmarked.textContent = `Question ${currentQuestionIndex + 1}`;
 
-            // navigate to the selected question
+
+
+
+
+
+
+            /* ================ BOOKMARKED ELEMENT FUNCTION ================ */
             questionsmarked.addEventListener('click', () => {
                 currentQuestionIndex = bookmarkIndex; // Update the current index
                 updateExamData(bookmarkIndex, questionNumber, questionTitle, questionsData, answerTextFromHtml, answerValues)
@@ -195,7 +203,7 @@ window.addEventListener('load', async () => {
 
 
 
-//submit handler
+/* ================ SUBMIT HANDLER ================ */
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const isPassing = selectedSubject.isPassing(userScore);
@@ -213,7 +221,7 @@ form.addEventListener("submit", async (e) => {
 })
 
 
-//timer handler
-timeProgress(span,selectedSubject,userId, userScore);
+/* ================ PROGRESS HANDLER ================ */
+timeProgress(span, selectedSubject, userId, userScore);
 
 
