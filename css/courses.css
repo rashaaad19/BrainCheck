@@ -1,0 +1,118 @@
+@font-face {
+    font-family: "landing-page-font";
+    src: url("../fonts/landing-page/Michroma/Michroma-Regular.ttf");
+}
+
+:root {
+    --primary-yellow-color: #ffb700;
+    --secondary-blue-color: #0b1950;
+}
+
+.subject-card-container {
+    background-color: white;
+    border-radius: 6px;
+    padding-bottom: 16px;
+
+}
+
+.subject-card-container .img-card-container {
+    /* background-color: red; */
+    width: 100%;
+    height: 250px;
+    position: relative;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.subject-card-container .img-card-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.subject-card-container .img-card-container img {
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+
+}
+
+.subject-card-container .info-container {
+    padding: 16px 12px;
+}
+
+.subject-card-container .info-container h2 {
+    font-family: "landing-page-font";
+    font-size: 18px;
+    color: var(--secondary-blue-color);
+    padding-bottom: 10px;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.subject-card-container .info-container p {
+    font-size: 14px;
+    color: var(--secondary-blue-color);
+    opacity: 0.6;
+}
+
+.subject-card-container .start-exam-btn {
+    /* background-color: red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.subject-card-container .start-exam-btn::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--secondary-blue-color);
+    width: 100%;
+    height: 1px;
+    opacity: 0.6;
+}
+
+.subject-card-container .start-exam-btn button {
+    background-color: var(--secondary-blue-color);
+    /* background-color: white; */
+    color: var(--primary-yellow-color);
+    /* color: var(--secondary-blue-color); */
+    /* border: 1px solid var(--primary-yellow-color); */
+    border-radius: 6px;
+    padding: 6px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+
+}
+
+/* overwrite the css of the home.html */
+.exam-system-title::before{
+    width: 140px;
+    background-color: white;  
+    height: 3px;
+    bottom: -12px;
+
+}
+
+@media screen and (max-width: 768px) {
+    .logOut-btn{
+        font-size: 12px;
+    }
+}
+
+
