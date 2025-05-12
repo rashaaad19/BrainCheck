@@ -63,9 +63,14 @@ a {
 
 .sidebar>h3 {
     text-transform: capitalize;
-    margin-bottom: 50px;
+    padding-top: 10px;
+    margin-bottom: 30px;
     font-weight: 600;
     font-size: 22px;
+    position: relative;
+    color: var(--secondary-blue-color);
+    font-family:'landing-page-font';
+    font-size: 18px;
 }
 
 @media (min-width:768px) {
@@ -74,23 +79,23 @@ a {
         position: absolute;
         width: 75px;
         height: 2px;
-        background-color: darkblue;
+        background-color: var(--secondary-blue-color);
         left: 50%;
         transform: translateX(-50%);
-        bottom: -20px;
+        bottom: -14px;
     }
 
     .sidebar>h3::after {
         content: '';
         position: absolute;
-        width: 12px;
-        height: 12px;
-        background-color:orange;
-        border: 3px solid white;
+        width: 6px;
+        height: 6px;
+        background-color:var(--primary-yellow-color);
+        /* border: 3px solid white; */
         border-radius: 50%;
         left: 50%;
         transform: translateX(-50%);
-        bottom: -28px;
+        bottom: -16px;
     }
 }
 
@@ -204,19 +209,20 @@ h1::before,
 h1::after {
     position: absolute;
     content: '';
-    left: 0;
+    left: 5px;
     height: 3px;
-    bottom: -10px;
+    bottom: -12px;
 }
 
 h1::before {
-    width: 120px;
-    background-color: white;
+    width: 140px;
+    background-color: white;  
+
 }
 
 h1::after {
     width: 50px;
-    background-color: black;
+    background-color: var(--secondary-blue-color);
 }
 
 /* start wrapper */

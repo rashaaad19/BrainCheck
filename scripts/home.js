@@ -37,56 +37,60 @@ const subjectButtonHandler = async (id) => {
   }
 };
 
+
 //courses based on firestore
+
 subjectClasses.map((subject) => {
-  const container = document.querySelector(".course");
+  const outerContainer = document.querySelector(".course");
+
+  // create the card of each subject
   const card = document.createElement("div");
-  card.className =
-    "subjects-container  flex flex-col justify-between card bg-white p-relative rad-10 p-10 gap-3";
-  let subjectnamedev = document.createElement("div");
-  subjectnamedev.className = "flex flex-col items-start  min-h-[150px]";
-  subjectnamedev.style.backgroundImage = `url(${subject.img})`;
-  subjectnamedev.style.backgroundSize = "cover";
-  subjectnamedev.style.backgroundRepeat = "no-repeat";
-  subjectnamedev.style.backgroundPosition = "center";
-  subjectnamedev.style.borderRadius = "10px";
-  subjectnamedev.innerHTML = `
-   <div class="courses flex flex-col items-start p-10 min-h-[150px] m-0">
-     <h3 class=" no fw-600 text-xl text-start min-h-10" style='color: rgb(0, 0, 163)' >${subject.subjectName}</h3>
-      <h3 class=" no text-xs line-1-6  "  style="color:white; padding-top:7px ">${subject.description}</h3>
-   </div>
-  
- 
-  `;
+  card.className = "subject-card-container";
 
-  card.appendChild(subjectnamedev);
+  // create the image container for each subject
+  const imgContainer = document.createElement("div");
+  imgContainer.className = "img-card-container";
+  let img = document.createElement("img");
+  img.src = subject.img;
+  img.alt = subject.subjectName;
+  imgContainer.appendChild(img);
 
-  const btn = document.createElement("div");
-  btn.className =
-    " flex justify-center start-btn mt-10 fw-500 c-blue pointer p-6";
-  const startbtn = document.createElement("button");
-  startbtn.className = " start ";
+  // create the info container for each subject
+  const infoContainer = document.createElement("div");
+  infoContainer.className = "info-container";
+  let subjectName = document.createElement("h2");
+  subjectName.innerText = subject.subjectName;
+  subjectName.title = subject.subjectName;
+  let subjectDescription = document.createElement("p");
+  subjectDescription.innerText = subject.description;
+  infoContainer.append(subjectName, subjectDescription);
 
-if(currentUser.role==='teacher'){
-  startbtn.innerText = "Add Questions";
-}
+  // create the start exam button for each subject 
+  const startExamBtnContainer = document.createElement("div");
+  startExamBtnContainer.className = "start-exam-btn";
+  let startExamBtn = document.createElement("button");
+  startExamBtn.innerText = "Start Exam";
+  startExamBtn.addEventListener("click", () => subjectButtonHandler(subject.id));
+  startExamBtnContainer.appendChild(startExamBtn);
 
-if(currentUser.role ==='student'){
-  startbtn.innerText = "Start Exam";
+  // append the elements to the card
+  card.append(imgContainer, infoContainer, startExamBtnContainer);
 
-}
 
-  startbtn.addEventListener("click", () => subjectButtonHandler(subject.id));
+  if (currentUser.role === 'teacher') {
+    startExamBtn.innerText = "Add Questions";
+  }
 
-  btn.appendChild(startbtn);
-  card.appendChild(btn);
+  if (currentUser.role === 'student') {
+    startExamBtn.innerText = "Start Exam";
 
-  container.appendChild(card);
+  }
+
+  outerContainer.append(card);
 });
 
-
 //handle log out btn click
-logoutBtn.addEventListener('click',()=>{
+logoutBtn.addEventListener('click', () => {
   logout();
   localStorage.removeItem('userId');
   window.location.href = `/`;

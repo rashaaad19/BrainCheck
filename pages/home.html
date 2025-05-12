@@ -8,19 +8,20 @@
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/framework.css">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/courses.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
+
 </head>
 
 <body>
     <div class="page d-flex">
         <div class="sidebar p-20 bg-white shadow-ddd p-relative">
-            <h3 class="t-center p-relative" style="color: darkblue;">Exam<span style="color: orange;"> System</span>
-            </h3>
+            <h3 class="exam-system-title t-center p-relative">Exam System </h3>
             <ul>
                 <li>
                     <a class="d-flex align-center p-10 rad-6 c-black" href="/pages/profile.html">
@@ -38,16 +39,33 @@
                 </li>
                 <li class="w-full">
                     <div class="flex p-6 justify-center w-full ">
-                        <button class="btn btn-soft btn-error w-full logOut-btn">LogOut</button>
+                        <button class="btn btn-soft btn-error w-full logOut-btn">Log out</button>
                     </div>
                 </li>
             </ul>
         </div>
+
         <div class="content f-width">
-            <h1 class="p-relative">Courses</h1>
+            <h1 class="p-relative" style="color:var(--secondary-blue-color);font-family:'landing-page-font';">Courses
+            </h1>
             <!-- start wrapper -->
             <div class="course wrapper-3 d-grid gap-20">
 
+                <!-- <div class="subject-card-container">
+
+                    <div class="img-card-container">
+                        <img src="../images/tree.jpeg" alt="">
+                    </div>
+
+                    <div class="info-container">
+                        <h2>Cell Biology</h2>
+                        <p>Fundamentals of cell structure, function, and cellular processes </p>
+                    </div>
+
+                    <div class="start-exam-btn">
+                        <button>Start Exam</button>
+                    </div>
+                </div> -->
             </div>
             <!-- end wrapper -->
         </div>
