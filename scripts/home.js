@@ -5,7 +5,7 @@ import {
   getCurrentUserDoc,
 } from "../services/firestore_queries_service.js";
 
-const logoutBtn = document.getElementsByClassName('logOut-btn')[0];
+const logoutBtn = document.getElementsByClassName("logOut-btn")[0];
 const userId = localStorage.getItem("userId");
 
 const currentUser = await getCurrentUserDoc(userId);
@@ -45,53 +45,51 @@ subjectClasses.map((subject) => {
 
   // create the card of each subject
   const card = document.createElement("div");
-  card.className = "subject-card-container";
+  card.className =
+    "subjects-container  flex flex-col justify-between card bg-white p-relative rad-10 pb-15";
+  let subjectnamedev = document.createElement("div");
+  subjectnamedev.className = "flex flex-col items-start  min-h-[250px]";
+  subjectnamedev.style.backgroundImage = `url(${subject.img})`;
+  subjectnamedev.style.backgroundSize = "cover";
+  subjectnamedev.style.backgroundRepeat = "no-repeat";
+  subjectnamedev.style.backgroundPosition = "center";
+ subjectnamedev.style.borderTopLeftRadius = "7px";
+subjectnamedev.style.borderTopRightRadius = "7px";
 
-  // create the image container for each subject
-  const imgContainer = document.createElement("div");
-  imgContainer.className = "img-card-container";
-  let img = document.createElement("img");
-  img.src = subject.img;
-  img.alt = subject.subjectName;
-  imgContainer.appendChild(img);
+  subjectnamedev.innerHTML = `
+   <div class="courses w-full flex flex-col items-start p-10 min-h-[250px] m-0">
+    </div>
+    
+  `;
+  let pargarph = document.createElement("div");
+  pargarph.className = ` flex flex-col items-start p-10 gap-2`;
+  pargarph.innerHTML = `     
+     <h3 class=" h31 text-xl text-start min-h-10"  >${subject.subjectName}</h3>
+      <h3 class=" h32  line-1-6  "  padding-top:7px ">${subject.description}</h3>`;
 
-  // create the info container for each subject
-  const infoContainer = document.createElement("div");
-  infoContainer.className = "info-container";
-  let subjectName = document.createElement("h2");
-  subjectName.innerText = subject.subjectName;
-  subjectName.title = subject.subjectName;
-  let subjectDescription = document.createElement("p");
-  subjectDescription.innerText = subject.description;
-  infoContainer.append(subjectName, subjectDescription);
+  card.appendChild(subjectnamedev);
+  card.appendChild(pargarph);
 
-  // create the start exam button for each subject 
-  const startExamBtnContainer = document.createElement("div");
-  startExamBtnContainer.className = "start-exam-btn";
-  let startExamBtn = document.createElement("button");
-  startExamBtn.innerText = "Start Exam";
-  startExamBtn.addEventListener("click", () => subjectButtonHandler(subject.id));
-  startExamBtnContainer.appendChild(startExamBtn);
+  const btn = document.createElement("div");
+  btn.className =
+    "startbtn flex justify-center start-btn mt-10 fw-500 c-blue pointer p-6";
+  const startbtn = document.createElement("button");
+  startbtn.className = " start ";
 
-  // append the elements to the card
-  card.append(imgContainer, infoContainer, startExamBtnContainer);
-
-
-  if (currentUser.role === 'teacher') {
-    startExamBtn.innerText = "Add Questions";
+  if (currentUser.role === "teacher") {
+    startbtn.innerText = "Add Questions";
   }
 
-  if (currentUser.role === 'student') {
-    startExamBtn.innerText = "Start Exam";
-
+  if (currentUser.role === "student") {
+    startbtn.innerText = "Start Exam";
   }
 
   outerContainer.append(card);
 });
 
 //handle log out btn click
-logoutBtn.addEventListener('click', () => {
+logoutBtn.addEventListener("click", () => {
   logout();
-  localStorage.removeItem('userId');
+  localStorage.removeItem("userId");
   window.location.href = `/`;
-})
+});
