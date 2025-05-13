@@ -37,13 +37,9 @@ const subjectButtonHandler = async (id) => {
   }
 };
 
-
 //courses based on firestore
-
 subjectClasses.map((subject) => {
-  const outerContainer = document.querySelector(".course");
-
-  // create the card of each subject
+  const container = document.querySelector(".course");
   const card = document.createElement("div");
   card.className =
     "subjects-container  flex flex-col justify-between card bg-white p-relative rad-10 pb-15";
@@ -84,7 +80,12 @@ subjectnamedev.style.borderTopRightRadius = "7px";
     startbtn.innerText = "Start Exam";
   }
 
-  outerContainer.append(card);
+  startbtn.addEventListener("click", () => subjectButtonHandler(subject.id));
+
+  btn.appendChild(startbtn);
+  card.appendChild(btn);
+
+  container.appendChild(card);
 });
 
 //handle log out btn click
