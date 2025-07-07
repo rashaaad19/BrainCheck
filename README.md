@@ -162,6 +162,8 @@ Once logged in, the home page changes to the dashboard:
 
 ---
 
+<a id="-page-6-profile-page"></a>
+
 ### 🙍‍♂️ Page 6 – **Profile Page**
 
 Displays user data including:
