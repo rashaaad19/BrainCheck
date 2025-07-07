@@ -31,11 +31,6 @@ Comperhensive exam system for sutdents and teachers
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
-  - [Page 1 – Home Page](#-page-1--home-page)
-  - [Page 2 / 3 – Register / Login Page](#-page-2--3--register--login-page)
-  - [Page 4 – Dashboard](#-page-4--dashboard)
-  - [Page 5 – Exam Page / Add Questions](#-page-5--exam-page--add-questions)
-  - [Page 6 – Profile Page](#-page-6--profile-page)
 - [License](#license)
 - [Built By](#-built-by)
 
