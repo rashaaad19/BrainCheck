@@ -98,7 +98,6 @@ There are no special prerequisites. Just make sure you have a modern web browser
 ---
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-```
 
 ## Usage
 
@@ -170,7 +169,6 @@ Displays user data including:
 
 ![Screenshot 2025-07-07 160657](https://github.com/user-attachments/assets/200d583f-7c4a-47d0-b92e-a093719cb257)
 
----
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
